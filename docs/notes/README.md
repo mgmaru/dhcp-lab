@@ -74,6 +74,7 @@ docs/notes/
 | ドキュメント | 内容 | 主なキーワード |
 |---|---|---|
 | [go-module-qa.md](qa/go-module-qa.md) | パッケージ・モジュール・go.mod の関係と、トップディレクトリに go.mod を1つ置く理由。この演習で何がパッケージになるか、`package main`（入口）とそれ以外（部品）の違い、**1つのフォルダ ＝ 1つのパッケージ**、別のパッケージ・モジュールのコードの使い方（インポートはパッケージ単位、大文字の名前だけ公開）、`main` 関数は1フォルダに1つ、別のモジュールをつなぐ方法（`require`・`replace`・go.work）、OSSを読むときのコツ | パッケージ、モジュール、go.mod、go.work、インポートパス、`package main`、`main` 関数、`init`、エクスポート、`require`、`replace`、`go get`、`cmd/`、`internal/` |
+| [go-module-download-qa.md](qa/go-module-download-qa.md) | `require` したモジュールはどこから来て、どこに保存されるのか。npm（`node_modules`）との違い、`go get` の役割（go.mod への書き込みとダウンロード）、ビルドキャッシュの場所の決まり方 | モジュールプロキシ、モジュールキャッシュ、`~/go/pkg/mod`、go.sum、`go get`、`go mod tidy`、vendor、npm、ビルドキャッシュ、`GOCACHE` |
 
 > Linuxの権限の基本（`rwx`、`755`、`644`、フォルダ構成）は、トラブルの記録 [apt-permission-denied-qa.md](troubleshooting/apt-permission-denied-qa.md) の6章で詳しく説明しています。
 
@@ -132,6 +133,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
 │
 └── playground/README.md ……………………………………… udp-echo をGoで実装する方針
       └── qa/go-module-qa.md ……………………………… パッケージ・モジュール・go.mod
+            └── qa/go-module-download-qa.md ……… モジュールはどこから来て、どこに保存されるのか
 ```
 
 ---

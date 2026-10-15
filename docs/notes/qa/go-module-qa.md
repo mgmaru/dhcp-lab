@@ -882,7 +882,7 @@ no required module provides package example.com/dhcp-lib; to add it:
 
 | ポイント | 説明 |
 |---|---|
-| ダウンロード先 | **モジュールキャッシュ**（`go env GOMODCACHE` で場所がわかる）。自分のリポジトリの中には入らない |
+| ダウンロード先 | **モジュールキャッシュ**（`go env GOMODCACHE` で場所がわかる）。自分のリポジトリの中には入らない（詳しくは [go-module-download-qa.md](go-module-download-qa.md)） |
 | バージョン | go.mod の `require` に書かれたバージョンが使われる。勝手に新しくならない |
 | `go mod tidy` | コードのインポートを見て、`require` の追加や、使っていないものの削除を自動でやってくれるコマンド |
 
