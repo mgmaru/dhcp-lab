@@ -55,6 +55,7 @@ docs/notes/
 | ドキュメント | 内容 | 主なキーワード |
 |---|---|---|
 | [step1-udp-socket-qa.md](qa/step1-udp-socket-qa.md) | UDPソケットとは何か、TCPとの違い、DHCPのクライアント側が68番に決まっている理由 | UDP、TCP、ソケット、ポート番号、エフェメラルポート |
+| [socket-protocol-layers-qa.md](qa/socket-protocol-layers-qa.md) | **ネットワークの層**（アプリケーション・トランスポート・ネットワーク・リンク）と、**ソケットはその境目の窓口**であること。ソケットに指定するのはUDP/TCPまでで、DHCPやHTTPは指定しない理由 | 層、カプセル化、ソケット、`udp4`、HTTP、DHCP |
 | [socket-bind-qa.md](qa/socket-bind-qa.md) | **bindとは、ソケットに自分側の住所（IPアドレスとポート番号）を付けること**。bindしないとOSがポートを選ぶこと、socatの `sourceport` との違い、DHCPクライアントが68番にbindする理由 | bind、ソケット、送信元ポート、エフェメラルポート、`0.0.0.0` |
 | [unicast-broadcast-multicast.md](qa/unicast-broadcast-multicast.md) | ユニキャスト・ブロードキャスト・マルチキャストの違いと、DHCPでの使われ方 | ブロードキャスト、マルチキャスト、`255.255.255.255`、DHCPv6 |
 | [ssh-via-vmnet2-qa.md](qa/ssh-via-vmnet2-qa.md) | Router VMを踏み台にしたSSHがどこを通っているのか、`$SSH_CONNECTION` の読み方 | 踏み台、VMnet2、ルーティングテーブル、`$SSH_CONNECTION` |
@@ -105,6 +106,7 @@ STEP 1を進める中で、どのドキュメントからどのドキュメン�
 learning-exercise.md（STEP 1：UDP通信を理解する）
 │
 ├── qa/step1-udp-socket-qa.md ………………………… UDPソケットとポート番号
+│     ├── qa/socket-protocol-layers-qa.md ………… ソケットに指定するプロトコルと、ネットワークの層
 │     └── qa/unicast-broadcast-multicast.md ……… 送り先の種類
 │
 └── runbooks/step1-udp-tools-runbook.md ……………… STEP 1の手順書

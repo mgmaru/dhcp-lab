@@ -109,7 +109,7 @@ tcpdumpで、ツールのときと**同じ結果**になれば完成です。
 
 | # | テーマ | 手がかり |
 |---|---|---|
-| 1 | 使うパッケージ | 標準ライブラリの **`net`** パッケージ。`UDPAddr`・`UDPConn` という型と、`ListenUDP`・`DialUDP` という関数の違いを調べる |
+| 1 | 使うパッケージ | 標準ライブラリの **`net`** パッケージ。`UDPAddr`・`UDPConn` という型と、`ListenUDP`・`DialUDP` という関数の違いを調べる。`"udp"`・`"udp4"` の違いは [socket-protocol-layers-qa.md](../docs/notes/qa/socket-protocol-layers-qa.md) を参照 |
 | 2 | 送信元の取得 | `UDPConn` にはデータを読むメソッドが複数ある。**送信元のアドレスも一緒に返すもの**を選ぶ（`recvfrom` に当たるもの） |
 | 3 | `DialUDP` と `ListenUDP` | `DialUDP` で作ったソケットは「**接続済み（connected）**」になり、決めた相手以外からのパケットを受け取らない。**ブロードキャストで送り、返事は `10.0.0.1` から来る**場合にどうなるか考える |
 | 4 | bind | 送信元ポートを9068番にするには、どこで「自分側の住所」を指定すればよいか。[socket-bind-qa.md](../docs/notes/qa/socket-bind-qa.md) の流れ（socket → bind → sendto）と、Goの関数の引数を対応させる |
