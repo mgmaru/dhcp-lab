@@ -4,17 +4,17 @@
 
 ## 実施概要
 
-| 項目 | 結果1：ユニキャスト | 結果2：ブロードキャスト | 結果3：ブロードキャスト（bind） |
-|---|---|---|---|
-| 実施日 | 2026-10-15 | 2026-10-15 | 2026-10-15 |
-| 実施した手順 | 手順書の「2. ユニキャストで送り合う（nc）」 | 手順書の「3. ブロードキャストで送る（socat）」 | 修正した手順書の3-2（`bind=:9068`） |
-| 使ったツール | `nc` | `socat` | `socat` |
-| キャプチャした場所 | Router VM（`debian-router`） | Router VM（`debian-router`） | Router VM（`debian-router`） |
-| キャプチャファイル | `step1.pcap` | `step1-2.pcap` | `step1-3.pcap` |
-| Server | Router VM `10.0.0.1`、UDP 9067番 | Router VM `10.0.0.1`、UDP 9067番 | Router VM `10.0.0.1`、UDP 9067番 |
-| Client | Client VM `10.0.0.10`、UDP 9068番 | Client VM `10.0.0.10`、UDP 9068番の**つもりだった**（[結果2](#結果2ブロードキャストsocat)を参照） | Client VM `10.0.0.10`、UDP 9068番 |
-| 送ったデータ | Client → Server：`hello`、Server → Client：`hi` | Client → 全員：`who is server?` | Client → 全員：`who is server?` |
-| 判定 | ✅ 成功 | ✅ ブロードキャストは届いた／⚠️ 送信元ポートが想定と違った | ✅ 成功（送信元ポートが9068番になった） |
+| 項目 | 結果1：ユニキャスト | 結果2：ブロードキャスト | 結果3：ブロードキャスト（bind） | 結果4：`broadcast` なし |
+|---|---|---|---|---|
+| 実施日 | 2026-10-15 | 2026-10-15 | 2026-10-15 | 2026-10-15 |
+| 実施した手順 | 手順書の「2. ユニキャストで送り合う（nc）」 | 手順書の「3. ブロードキャストで送る（socat）」 | 修正した手順書の3-2（`bind=:9068`） | 手順書の3-3（`broadcast` を外す） |
+| 使ったツール | `nc` | `socat` | `socat` | `socat` |
+| キャプチャした場所 | Router VM（`debian-router`） | Router VM（`debian-router`） | Router VM（`debian-router`） | —（Client VMのエラー表示で確認） |
+| キャプチャファイル | `step1.pcap` | `step1-2.pcap` | `step1-3.pcap` | — |
+| Server | Router VM `10.0.0.1`、UDP 9067番 | Router VM `10.0.0.1`、UDP 9067番 | Router VM `10.0.0.1`、UDP 9067番 | Router VM `10.0.0.1`、UDP 9067番 |
+| Client | Client VM `10.0.0.10`、UDP 9068番 | Client VM `10.0.0.10`、UDP 9068番の**つもりだった**（[結果2](#結果2ブロードキャストsocat)を参照） | Client VM `10.0.0.10`、UDP 9068番 | Client VM `10.0.0.10`、UDP 9068番 |
+| 送ったデータ | Client → Server：`hello`、Server → Client：`hi` | Client → 全員：`who is server?` | Client → 全員：`who is server?` | Client → 全員：`no broadcast option`（**送信できなかった**） |
+| 判定 | ✅ 成功 | ✅ ブロードキャストは届いた／⚠️ 送信元ポートが想定と違った | ✅ 成功（送信元ポートが9068番になった） | ✅ 想定どおり（`Permission denied` で送信できなかった） |
 
 ---
 
@@ -444,6 +444,125 @@ Ethernetには「フレームは最低60バイト（最後のチェック用の4
 
 ---
 
+## 結果4：`broadcast` オプションを外すと送信できない
+
+手順書の3-3で、`broadcast` オプションを外して、全員宛てに送ろうとしました。
+
+### 実行したコマンド
+
+**Client VM（ターミナルC）**
+
+```bash
+echo "no broadcast option" | socat - UDP-DATAGRAM:255.255.255.255:9067,bind=:9068
+```
+
+結果3のコマンドから、`broadcast` だけを外しています。
+
+| | 結果3 | 結果4 |
+|---|---|---|
+| コマンドのオプション | `broadcast,bind=:9068` | `bind=:9068`（**`broadcast` なし**） |
+
+### 結果
+
+```text
+kajih@debian-client:~$ echo "no broadcast option" | socat - UDP-DATAGRAM:255.255.255.255:9067,bind=:9068
+2026/10/15 17:16:54 socat[1642] E sendto(5, 0x55ef56fd4000, 20, 0, AF=2 255.255.255.255:9067, 16): Permission denied
+```
+
+**判定：想定どおり**。`Permission denied` のエラーになり、送信できませんでした。
+
+---
+
+## 結果4の読み方
+
+socatのエラーメッセージは、次のように分解できます。
+
+```text
+2026/10/15 17:16:54  socat[1642]  E  sendto(5, 0x55ef56fd4000, 20, 0, AF=2 255.255.255.255:9067, 16): Permission denied
+└──── 日時 ────┘    └プロセス┘   │  └──────────────────── 失敗した操作 ────────────────────┘   └─── 理由 ───┘
+                    名とID      └ エラーの重さ
+```
+
+| 部分 | 意味 |
+|---|---|
+| `2026/10/15 17:16:54` | エラーが起きた日時 |
+| `socat[1642]` | socatの、プロセスID 1642番で起きた |
+| `E` | エラーの重さ。**E = Error**（ほかに W = Warning、N = Notice など） |
+| `sendto(...)` | **`sendto()`（送信）で失敗した** |
+| `Permission denied` | 失敗した理由：**許可されていない** |
+
+`sendto(...)` のカッコの中は、送信しようとした内容です。
+
+| 値 | 意味 |
+|---|---|
+| `5` | 使ったソケットの番号（ファイルディスクリプタ） |
+| `0x55ef56fd4000` | 送るデータが置かれているメモリの場所 |
+| `20` | 送ろうとしたデータの長さ：**20バイト**（`no broadcast option` の19文字＋改行1文字） |
+| `0` | 送信のオプション（なし） |
+| `AF=2` | アドレスの種類。**2 = IPv4**（`AF_INET`） |
+| `255.255.255.255:9067` | 宛先：全員宛て、9067番 |
+| `16` | 宛先アドレスの情報の大きさ（IPv4では16バイト） |
+
+---
+
+## 結果4からわかったこと
+
+### 1. どこで止められたのか
+
+```text
+ ① socket()                     ✅ ソケットを作る
+ ② bind(0.0.0.0, 9068)          ✅ 9068番を自分の住所にする
+ ③ sendto(255.255.255.255, 9067) ❌ ここで OS に断られた（Permission denied）
+```
+
+`socket()` と `bind()` は成功し、**`sendto()`（送信）でOSに断られました**。パケットはClient VMの外に出ていません。
+
+### 2. ブロードキャストには「明示的な許可」が必要
+
+OSは、ソケットで **`SO_BROADCAST`** が有効になっていないと、全員宛て（ブロードキャスト）の送信を断ります。socatの `broadcast` オプションは、この `SO_BROADCAST` を有効にする指定です。
+
+| | 結果3（`broadcast` あり） | 結果4（`broadcast` なし） |
+|---|---|---|
+| `SO_BROADCAST` | 有効 | 無効 |
+| 全員宛ての送信 | ✅ できた | ❌ `Permission denied` |
+
+**なぜ許可が必要なのか**：ブロードキャストは、同じネットワークの全員に届き、全員の負担になります（[unicast-broadcast-multicast.md](../qa/unicast-broadcast-multicast.md)）。プログラムの書き間違いで、うっかり全員宛てに送ってしまわないように、「本当にブロードキャストを送るつもりです」と明示しないと送れないしくみになっています。
+
+### 3. この `Permission denied` は、ファイルの権限とは別のもの
+
+これまでにも `Permission denied` は何度か出てきましたが、**今回は意味が違います**。
+
+| 出てきた場面 | 何が許可されなかったか | 対処 |
+|---|---|---|
+| aptで `.deb` をインストール（[apt-permission-denied-qa.md](../troubleshooting/apt-permission-denied-qa.md)） | **ファイル**を読むこと（`_apt` ユーザーがホームに入れない） | 読める場所にコピーする |
+| tcpdumpでホームに保存（[tcpdump-save-capture.md](../runbooks/tcpdump-save-capture.md)） | **ファイル**を書くこと（`tcpdump` ユーザーがホームに入れない） | `/tmp` に保存する、`-Z $USER` |
+| **今回**：ブロードキャストを送信 | **ブロードキャストを送ること**（ソケットで `SO_BROADCAST` が無効） | `broadcast` オプション（`SO_BROADCAST`）を付ける |
+
+今回はファイルもユーザーも関係ありません。そのため、**`sudo` を付けても解決しません**。root で実行しても、`SO_BROADCAST` を有効にしなければ、ブロードキャストは送れません。
+
+> `Permission denied` が出たら、「**何をしようとして**断られたのか」を確認しましょう。今回は、エラーメッセージに `sendto(...)` と書かれているので、「送信が断られた」とわかります。
+
+### 4. DHCPの実装とのつながり
+
+自分でDHCPクライアントを書くときも、ソケットで `SO_BROADCAST` を有効にしないと、DHCPDISCOVER（全員宛て）を送れません。
+
+```text
+ ① socket()                        UDPのソケットを作る
+ ② SO_BROADCAST を有効にする        ← 忘れると、結果4と同じ Permission denied
+ ③ bind(0.0.0.0, 68)                ← 忘れると、結果2と同じく送信元がエフェメラルポートになる
+ ④ sendto(255.255.255.255, 67)      DHCPDISCOVER を全員宛てに送る
+ ⑤ recvfrom()                       DHCPOFFER を待つ
+```
+
+STEP 1で、②と③をそれぞれ忘れたときに何が起きるかを、両方とも実際に確認できました。
+
+| 忘れたもの | 起きること | 確認した結果 |
+|---|---|---|
+| ② `SO_BROADCAST` | 送信が `Permission denied` で失敗する | 結果4 |
+| ③ `bind(68)` | 送信はできるが、送信元がエフェメラルポートになり、返事を受け取れない | 結果2 |
+
+---
+
 ## 完了チェックの状況
 
 [手順書の完了チェック](../runbooks/step1-udp-tools-runbook.md#完了チェック)に対する、この記録時点での状況です。
@@ -455,15 +574,17 @@ Ethernetには「フレームは最低60バイト（最後のチェック用の4
 | tcpdumpで、行きと帰りの送信元・宛先が入れ替わっていることを確認した | ✅ |
 | tcpdumpで、UDPにはハンドシェイクがないことを確認した | ✅ |
 | ブロードキャスト（`255.255.255.255`）がServerに届いた | ✅ 結果2で確認（tcpdumpに記録され、ターミナルBのsocatにも `who is server?` と表示された）。結果3で、宛先MACが `ff:ff:ff:ff:ff:ff` であることも確認 |
-| `broadcast` オプションがないと送信できないことを確認した | ⬜ この記録には含まれていない |
+| `broadcast` オプションがないと送信できないことを確認した | ✅ 結果4で確認（`sendto` が `Permission denied` で失敗した） |
 
 ---
 
 ## 次にやること
 
-- 手順書の3-3（`broadcast` を外すと送信できないこと）を確認する
+手順書の完了チェックは、すべて ✅ になりました。**STEP 1のうち、ツールで確認する部分は完了**です。
+
+
 - 余裕があれば、パケットの中身も確認する
   ```bash
   tcpdump -n -X -r step1.pcap     # データ部分に hello / hi が見える
   ```
-- STEP 1の残り：同じ動きを `playground/udp-echo/` にコードで書く。Client側は**送信する前に `bind` する**ことを忘れない
+- STEP 1の残り：同じ動きを `playground/udp-echo/` にコードで書く。Client側は、**送信する前に `SO_BROADCAST` を有効にし、`bind` する**ことを忘れない

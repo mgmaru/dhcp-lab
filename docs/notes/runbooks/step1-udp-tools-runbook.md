@@ -278,6 +278,12 @@ echo "no broadcast option" | socat - UDP-DATAGRAM:255.255.255.255:9067,bind=:906
 
 **期待する結果**：`Permission denied` などのエラーになり、送信できない。
 
+実際には、次のように表示されました（[step1-results.md の結果4](../results/step1-results.md#結果4broadcast-オプションを外すと送信できない)）。
+
+```text
+2026/10/15 17:16:54 socat[1642] E sendto(5, 0x55ef56fd4000, 20, 0, AF=2 255.255.255.255:9067, 16): Permission denied
+```
+
 ブロードキャストを送るには、ソケットで `SO_BROADCAST` を明示的に有効にする必要があります。自分でコードを書くときも同じです。
 
 ### 3-4. 終了する
