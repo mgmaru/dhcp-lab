@@ -20,6 +20,7 @@
 | ドキュメント | 内容 | 関係するSTEP |
 |---|---|---|
 | [step1-udp-tools-runbook.md](step1-udp-tools-runbook.md) | `nc`・`socat`・`tcpdump` で、Client VMとRouter VMの間でUDPを送り合い、パケットを観察する | STEP 1 |
+| [step1-results.md](step1-results.md) | STEP 1の手順書を実行した結果（キャプチャ）と、その読み方の記録 | STEP 1 |
 | [tcpdump-save-capture.md](tcpdump-save-capture.md) | tcpdumpのキャプチャ結果をpcapファイルやテキストファイルに保存し、読み直す・Wiresharkで開く | 全STEP |
 
 ### ネットワークの基礎
@@ -64,6 +65,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
 │
 └── step1-udp-tools-runbook.md ………… STEP 1の手順書
       │
+      ├── step1-results.md …………………………… 手順書を実行した結果の記録
       ├── tcpdump-save-capture.md ……………… キャプチャをファイルに保存する
       │
       └── client-vm-offline-package-install.md … 0-1でaptが失敗
@@ -83,6 +85,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
 | 種類 | ファイル名の付け方 | 例 |
 |---|---|---|
 | 手順書 | `stepN-<内容>-runbook.md` | `step1-udp-tools-runbook.md` |
+| 実施記録 | `stepN-results.md` | `step1-results.md` |
 | STEPに依存しない手順書 | `<ツール名>-<内容>.md` | `tcpdump-save-capture.md` |
 | 特定のSTEPのQ&A | `stepN-<内容>-qa.md` | `step1-udp-socket-qa.md` |
 | STEPに依存しないQ&A | `<内容>-qa.md` | `scp-qa.md`、`tilde-qa.md` |
