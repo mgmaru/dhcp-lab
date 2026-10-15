@@ -43,6 +43,10 @@ sudo apt update
 sudo apt install -y netcat-openbsd socat tcpdump
 ```
 
+> **Client VMで `Temporary failure resolving 'deb.debian.org'` と表示されて失敗する場合**
+>
+> Client VMは隔離LAN（VMnet2）にしかつながっていないので、インターネットに出られません。[client-vm-offline-package-install.md](client-vm-offline-package-install.md) の手順でインストールしてください。
+
 確認：
 ```bash
 nc -h 2>&1 | head -1     # OpenBSD netcat と表示されればOK
@@ -77,6 +81,10 @@ VMnet2につながっているNICの名前をメモしておきます。以降�
 ### 0-3. 固定IPを設定する
 
 `ip addr add` で付けたIPは**一時的**なもので、再起動すると消えます。
+
+> **SSHで作業しているときは注意**
+>
+> Router VMを踏み台にしてClient VMにSSHしている場合、VMnet2側にはすでにIPが付いています。先に `ip -br addr` で確認してください。すでにIPが付いていれば、この手順は飛ばし、そのIPで以降の `10.0.0.1` / `10.0.0.10` を読み替えます。SSHで使っているNICのIPを変えたり消したりすると、接続が切れて戻れなくなります。詳しくは [client-vm-offline-package-install.md の7章](client-vm-offline-package-install.md#7-sshで作業するときの注意) を参照してください。
 
 **Router VM**
 ```bash
