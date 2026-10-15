@@ -247,14 +247,18 @@ socat -u UDP-RECV:9067 -
 **Client VM のターミナルC**で実行します。
 
 ```bash
-echo "who is server?" | socat - UDP-DATAGRAM:255.255.255.255:9067,broadcast,sourceport=9068
+echo "who is server?" | socat - UDP-DATAGRAM:255.255.255.255:9067,broadcast,bind=:9068
 ```
 
 | 指定 | 意味 |
 |---|---|
 | `UDP-DATAGRAM:255.255.255.255:9067` | 宛先は全員、ポートは9067番 |
 | `broadcast` | ソケットの `SO_BROADCAST` を有効にする |
-| `sourceport=9068` | 送信元ポートを9068番にする |
+| `bind=:9068` | 送信元ポートを9068番にする（自分側のソケットを9068番に結びつける） |
+
+> **以前は `sourceport=9068` と書いていました**
+>
+> `sourceport=9068` で実行すると、送信元ポートが9068番にならず、OSが自動で選んだポート（例：55975番）になりました。そのため、`bind=:9068` に修正しています。修正後のコマンドは、まだ実行して確かめていません。詳しくは [step1-results.md の結果2](../results/step1-results.md#結果2ブロードキャストsocat) を参照してください。
 
 **期待する結果**
 - ターミナルB（Server）に `who is server?` と表示される
@@ -269,7 +273,7 @@ IP 10.0.0.10.9068 > 255.255.255.255.9067: UDP, length 15
 ### 3-3. 試してみる：`broadcast` を外すとどうなるか
 
 ```bash
-echo "no broadcast option" | socat - UDP-DATAGRAM:255.255.255.255:9067,sourceport=9068
+echo "no broadcast option" | socat - UDP-DATAGRAM:255.255.255.255:9067,bind=:9068
 ```
 
 **期待する結果**：`Permission denied` などのエラーになり、送信できない。
