@@ -13,7 +13,7 @@ DHCPの本実装（`dhcp/`・`server/`・`client/`）に入る前に、必要な
 | 実装言語 | **Go** | 標準ライブラリ（`net`）だけでUDPを扱える。Linux用のビルドをMacで作れる |
 | 書き方 | **自分で一から書く** | 動かしながら理解するため |
 | Claudeの役割 | **レビューだけ**。コードは示さない | 答えを見ずに、自分で考えて書くため。指摘とヒントだけを受け取る |
-| モジュール | リポジトリの直下に `go.mod` を1つ置く（モジュール名：`github.com/mgmaru/dhcp-lab`） | あとで `dhcp/`・`server/`・`client/` と共通のコードを使い回せる |
+| モジュール | リポジトリの直下に `go.mod` を1つ置く（モジュール名：`github.com/mgmaru/dhcp-lab`） | あとで `dhcp/`・`server/`・`client/` と共通のコードを使い回せる（[go-module-qa.md](../docs/notes/qa/go-module-qa.md)） |
 | VMでの動かし方 | **Macで Linux 用にビルド**し、できたファイルを `scp` でVMにコピーして実行する | Client VMはインターネットに出られず、Goをインストールしにくい。Goのビルド結果は単体で動く |
 | ポート番号 | STEP 1と同じ **9067番（Server）・9068番（Client）** | `sudo` が不要。既存のDHCPクライアントとぶつからない |
 

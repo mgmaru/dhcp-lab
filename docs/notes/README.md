@@ -69,6 +69,12 @@ docs/notes/
 | [tilde-qa.md](qa/tilde-qa.md) | `~`（チルダ）とは何か、scpでどのマシンのホームを指すか、どのOSで使えるか | `~`、ホームディレクトリ、チルダ展開、シェル |
 | [file-vs-folder-permission-qa.md](qa/file-vs-folder-permission-qa.md) | **ファイルとフォルダで `rwx` の意味が違う**こと。保存に実行権限は不要なこと、「読む」「実行する」「たどり着く」の違い | ファイルの `x`（実行）、フォルダの `x`（中に入る）、nano、`chmod +x` |
 
+**Go**
+
+| ドキュメント | 内容 | 主なキーワード |
+|---|---|---|
+| [go-module-qa.md](qa/go-module-qa.md) | パッケージ・モジュール・go.mod の関係と、トップディレクトリに go.mod を1つ置く理由 | パッケージ、モジュール、go.mod、インポートパス、`main` パッケージ |
+
 > Linuxの権限の基本（`rwx`、`755`、`644`、フォルダ構成）は、トラブルの記録 [apt-permission-denied-qa.md](troubleshooting/apt-permission-denied-qa.md) の6章で詳しく説明しています。
 
 ### results/：実施記録
@@ -109,20 +115,23 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
 │     ├── qa/socket-protocol-layers-qa.md ………… ソケットに指定するプロトコルと、ネットワークの層
 │     └── qa/unicast-broadcast-multicast.md ……… 送り先の種類
 │
-└── runbooks/step1-udp-tools-runbook.md ……………… STEP 1の手順書
-      │
-      ├── results/step1-results.md ………………………… 手順書を実行した結果の記録
-      │     └── qa/socket-bind-qa.md ……………………………… bindとは何か（sourceport との違い）
-      ├── cheatsheets/tcpdump-cheatsheet.md …………… tcpdumpの早見表
-      │     └── qa/tcpdump-n-option-qa.md ……………… -n オプションの意味
-      ├── runbooks/tcpdump-save-capture.md ………… キャプチャをファイルに保存する
-      │
-      └── troubleshooting/client-vm-offline-package-install.md … 0-1でaptが失敗
-            ├── qa/ssh-via-vmnet2-qa.md ……………………… SSHの経路
-            ├── qa/scp-qa.md ………………………………………… ファイルのコピー
-            │     └── qa/tilde-qa.md ………………………………… パスの中の「~」
-            └── troubleshooting/apt-permission-denied-qa.md … 5-3でaptが失敗、Linuxの権限
-                  └── qa/file-vs-folder-permission-qa.md … ファイルとフォルダで rwx の意味が違う
+├── runbooks/step1-udp-tools-runbook.md ……………… STEP 1の手順書
+│     │
+│     ├── results/step1-results.md ………………………… 手順書を実行した結果の記録
+│     │     └── qa/socket-bind-qa.md ……………………………… bindとは何か（sourceport との違い）
+│     ├── cheatsheets/tcpdump-cheatsheet.md …………… tcpdumpの早見表
+│     │     └── qa/tcpdump-n-option-qa.md ……………… -n オプションの意味
+│     ├── runbooks/tcpdump-save-capture.md ………… キャプチャをファイルに保存する
+│     │
+│     └── troubleshooting/client-vm-offline-package-install.md … 0-1でaptが失敗
+│           ├── qa/ssh-via-vmnet2-qa.md ……………………… SSHの経路
+│           ├── qa/scp-qa.md ………………………………………… ファイルのコピー
+│           │     └── qa/tilde-qa.md ………………………………… パスの中の「~」
+│           └── troubleshooting/apt-permission-denied-qa.md … 5-3でaptが失敗、Linuxの権限
+│                 └── qa/file-vs-folder-permission-qa.md … ファイルとフォルダで rwx の意味が違う
+│
+└── playground/README.md ……………………………………… udp-echo をGoで実装する方針
+      └── qa/go-module-qa.md ……………………………… パッケージ・モジュール・go.mod
 ```
 
 ---
