@@ -21,7 +21,8 @@ docs/notes/
 ├── runbooks/            ← 手順書：上から順に実行できる形で書いたもの
 ├── qa/                  ← Q&A：質問と、その回答
 ├── results/             ← 実施記録：手順書を実行した結果
-└── troubleshooting/     ← トラブルの記録：実際に起きた問題と、原因・対処
+├── troubleshooting/     ← トラブルの記録：実際に起きた問題と、原因・対処
+└── cheatsheets/         ← 早見表：コマンドやオプションをすぐに引けるようにまとめたもの
 ```
 
 | フォルダ | 置くもの | 迷ったときの目安 |
@@ -30,6 +31,7 @@ docs/notes/
 | `qa/` | Q&A | 「○○とは何か？」「○○と××の違いは？」という質問への回答 |
 | `results/` | 実施記録 | 「やってみたら、こうなった」という結果の記録 |
 | `troubleshooting/` | トラブルの記録 | 「エラーが出た。原因はこれで、こう直した」という記録 |
+| `cheatsheets/` | 早見表 | 「このオプション何だっけ？」とすぐに引くための一覧 |
 
 ---
 
@@ -84,6 +86,14 @@ docs/notes/
 | [client-vm-offline-package-install.md](troubleshooting/client-vm-offline-package-install.md) | Client VMで `apt install` が `Temporary failure resolving 'deb.debian.org'` で失敗した | Client VMは隔離LAN（VMnet2）にしかつながっておらず、インターネットに出られない |
 | [apt-permission-denied-qa.md](troubleshooting/apt-permission-denied-qa.md) | `.deb` ファイルからの `apt install` が `Permission denied` で失敗した。**Linuxの権限のしくみの解説も含む** | aptがファイルを読むときに使う `_apt` ユーザーが、ホームディレクトリに入れない |
 
+### cheatsheets/：早見表
+
+コマンドやオプションを、すぐに引けるようにまとめたものです。
+
+| ドキュメント | 内容 |
+|---|---|
+| [tcpdump-cheatsheet.md](cheatsheets/tcpdump-cheatsheet.md) | tcpdumpのよく使うオプション・フィルタ・目的別のコマンド例・出力の読み方・よくあるつまずき |
+
 ---
 
 ## ドキュメント同士の関係
@@ -100,6 +110,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
       │
       ├── results/step1-results.md ………………………… 手順書を実行した結果の記録
       │     └── qa/socket-bind-qa.md ……………………………… bindとは何か（sourceport との違い）
+      ├── cheatsheets/tcpdump-cheatsheet.md …………… tcpdumpの早見表
       ├── runbooks/tcpdump-save-capture.md ………… キャプチャをファイルに保存する
       │
       └── troubleshooting/client-vm-offline-package-install.md … 0-1でaptが失敗
@@ -128,6 +139,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
 | STEPに依存しないQ&A | `qa/` | `<内容>-qa.md` | `scp-qa.md`、`tilde-qa.md` |
 | 実施記録 | `results/` | `stepN-results.md` | `step1-results.md` |
 | トラブルの記録 | `troubleshooting/` | `<起きたこと>.md` | `client-vm-offline-package-install.md` |
+| 早見表 | `cheatsheets/` | `<ツール名>-cheatsheet.md` | `tcpdump-cheatsheet.md` |
 
 ### 3. リンクを書く
 
