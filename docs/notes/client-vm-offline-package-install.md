@@ -328,6 +328,8 @@ VMwareでVMnet2側アダプタの接続先を **VMnet2 → NAT** に変えてイ
 
 今回のように、Router VMを踏み台にしてClient VMにSSHしているときは、次の点に気をつけてください。
 
+> SSHの通信がどの経路を通っているのか、`$SSH_CONNECTION` の読み方などは [ssh-via-vmnet2-qa.md](ssh-via-vmnet2-qa.md) にまとめています。
+
 ### SSHで使っているNICの設定を変えない
 
 SSHの通信は、VMnet2を通っています。そのNICのIPを変えたり消したり、NICを止めたり（`ip link set ... down`）すると、**SSHの接続が切れて、外出先からは戻れなくなります**。
