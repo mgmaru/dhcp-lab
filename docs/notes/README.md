@@ -45,6 +45,7 @@
 | [scp-qa.md](scp-qa.md) | `scp` とは何か、`cp` との違い、コピーの向き3パターン | `scp`、SSH、`-3`、`-P` |
 | [tilde-qa.md](tilde-qa.md) | `~`（チルダ）とは何か、scpでどのマシンのホームを指すか、どのOSで使えるか | `~`、ホームディレクトリ、チルダ展開、シェル |
 | [apt-permission-denied-qa.md](apt-permission-denied-qa.md) | Linuxのフォルダ構成と、権限（`rwx`、`755`、`644`）のしくみ | 権限、`chmod`、`/tmp`、スティッキービット、`_apt` |
+| [file-vs-folder-permission-qa.md](file-vs-folder-permission-qa.md) | **ファイルとフォルダで `rwx` の意味が違う**こと。保存に実行権限は不要なこと、「読む」「実行する」「たどり着く」の違い | ファイルの `x`（実行）、フォルダの `x`（中に入る）、nano、`chmod +x` |
 
 > `apt-permission-denied-qa.md` は、トラブルの記録とLinuxの権限の解説を兼ねているので、両方の表に載せています。
 
@@ -67,6 +68,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
             ├── scp-qa.md ……………………………… ファイルのコピー
             │     └── tilde-qa.md ……………………… パスの中の「~」
             └── apt-permission-denied-qa.md …… 5-3でaptが失敗、Linuxの権限
+                  └── file-vs-folder-permission-qa.md … ファイルとフォルダで rwx の意味が違う
 ```
 
 ---
