@@ -133,6 +133,15 @@ sudo tcpdump -i <LAN_IF> -n -X 'udp port 9067 or udp port 9068'
 
 `listening on <LAN_IF> ...` と表示されたら待機中です。
 
+> **キャプチャをファイルに保存したいとき**
+>
+> 上のコマンドの代わりに次を実行すると、画面に表示しながら `/tmp/captures/step1.pcap` に保存できます。保存したファイルの読み方や、Wiresharkで開く方法は [tcpdump-save-capture.md](tcpdump-save-capture.md) を参照してください。
+>
+> ```bash
+> mkdir -p /tmp/captures
+> sudo tcpdump -i <LAN_IF> -n --print -w /tmp/captures/step1.pcap 'udp port 9067 or udp port 9068'
+> ```
+
 ---
 
 ## 2. ユニキャストで送り合う（nc）
