@@ -58,6 +58,7 @@ docs/notes/
 | [socket-bind-qa.md](qa/socket-bind-qa.md) | **bindとは、ソケットに自分側の住所（IPアドレスとポート番号）を付けること**。bindしないとOSがポートを選ぶこと、socatの `sourceport` との違い、DHCPクライアントが68番にbindする理由 | bind、ソケット、送信元ポート、エフェメラルポート、`0.0.0.0` |
 | [unicast-broadcast-multicast.md](qa/unicast-broadcast-multicast.md) | ユニキャスト・ブロードキャスト・マルチキャストの違いと、DHCPでの使われ方 | ブロードキャスト、マルチキャスト、`255.255.255.255`、DHCPv6 |
 | [ssh-via-vmnet2-qa.md](qa/ssh-via-vmnet2-qa.md) | Router VMを踏み台にしたSSHがどこを通っているのか、`$SSH_CONNECTION` の読み方 | 踏み台、VMnet2、ルーティングテーブル、`$SSH_CONNECTION` |
+| [tcpdump-n-option-qa.md](qa/tcpdump-n-option-qa.md) | tcpdumpの `-n` オプションの意味。付けないとIPアドレスやポート番号が名前（`68` → `bootpc` など）で表示されること、数字で見るのがおすすめな理由 | `-n`、`/etc/services`、`/etc/hosts`、`bootps`、`bootpc` |
 
 **Linux・コマンド**
 
@@ -111,6 +112,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
       ├── results/step1-results.md ………………………… 手順書を実行した結果の記録
       │     └── qa/socket-bind-qa.md ……………………………… bindとは何か（sourceport との違い）
       ├── cheatsheets/tcpdump-cheatsheet.md …………… tcpdumpの早見表
+      │     └── qa/tcpdump-n-option-qa.md ……………… -n オプションの意味
       ├── runbooks/tcpdump-save-capture.md ………… キャプチャをファイルに保存する
       │
       └── troubleshooting/client-vm-offline-package-install.md … 0-1でaptが失敗
