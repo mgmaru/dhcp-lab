@@ -73,7 +73,7 @@ docs/notes/
 
 | ドキュメント | 内容 | 主なキーワード |
 |---|---|---|
-| [go-module-qa.md](qa/go-module-qa.md) | パッケージ・モジュール・go.mod の関係と、トップディレクトリに go.mod を1つ置く理由。この演習で何がパッケージになるか、`package main`（入口）とそれ以外（部品）の違い、**1つのフォルダ ＝ 1つのパッケージ**、OSSを読むときのコツ | パッケージ、モジュール、go.mod、インポートパス、`package main`、`main` 関数、`init`、`cmd/`、`internal/` |
+| [go-module-qa.md](qa/go-module-qa.md) | パッケージ・モジュール・go.mod の関係と、トップディレクトリに go.mod を1つ置く理由。この演習で何がパッケージになるか、`package main`（入口）とそれ以外（部品）の違い、**1つのフォルダ ＝ 1つのパッケージ**、別のパッケージ・モジュールのコードの使い方（インポートはパッケージ単位、大文字の名前だけ公開）、OSSを読むときのコツ | パッケージ、モジュール、go.mod、インポートパス、`package main`、`main` 関数、`init`、エクスポート、`require`、`replace`、`cmd/`、`internal/` |
 
 > Linuxの権限の基本（`rwx`、`755`、`644`、フォルダ構成）は、トラブルの記録 [apt-permission-denied-qa.md](troubleshooting/apt-permission-denied-qa.md) の6章で詳しく説明しています。
 
