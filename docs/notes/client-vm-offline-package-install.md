@@ -190,6 +190,8 @@ sudo apt install -y netcat-openbsd socat tcpdump
 
 コピーの方法は3つあります。自分の環境に合わせて**どれか1つ**を使ってください。
 
+> コピーには `scp`（SSH越しにファイルをコピーするコマンド）を使います。`scp` の書き方は [scp-qa.md](scp-qa.md) にまとめています。
+
 | 方法 | どこで実行するか | 向いている場合 |
 |---|---|---|
 | ① Client VMから取ってくる | Client VM | Client VMからRouter VMにパスワードでログインできる |
