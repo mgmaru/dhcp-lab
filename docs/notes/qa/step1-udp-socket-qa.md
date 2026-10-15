@@ -1,6 +1,6 @@
 # STEP 1 Q&A：UDPソケットとDHCPのポート番号
 
-[learning-exercise.md](../learning-exercise.md) の「STEP 1：UDP通信を理解する」を進める中で出た質問と、その回答をまとめたメモです。
+[learning-exercise.md](../../learning-exercise.md) の「STEP 1：UDP通信を理解する」を進める中で出た質問と、その回答をまとめたメモです。
 
 ## 目次
 

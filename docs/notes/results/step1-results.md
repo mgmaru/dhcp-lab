@@ -1,6 +1,6 @@
 # STEP 1 実施記録：ツールでUDP通信を確認した結果
 
-[step1-udp-tools-runbook.md](step1-udp-tools-runbook.md) を実行して得られた結果と、その読み方の記録です。
+[step1-udp-tools-runbook.md](../runbooks/step1-udp-tools-runbook.md) を実行して得られた結果と、その読み方の記録です。
 
 ## 実施概要
 
@@ -85,7 +85,7 @@ reading from file step1.pcap, link-type EN10MB (Ethernet), snapshot length 26214
                           └── 送信元 ──┘     └── 宛先 ──┘
 ```
 
-Server（`nc -u -l 9067`）は、返事の宛先を何も指定していません。最初に届いたパケットの送信元（`10.0.0.10.9068`）を覚えて、そこへ返しています。プログラムで書くときの `recvfrom` → `sendto` と同じ動きです（[step1-udp-socket-qa.md](step1-udp-socket-qa.md)）。
+Server（`nc -u -l 9067`）は、返事の宛先を何も指定していません。最初に届いたパケットの送信元（`10.0.0.10.9068`）を覚えて、そこへ返しています。プログラムで書くときの `recvfrom` → `sendto` と同じ動きです（[step1-udp-socket-qa.md](../qa/step1-udp-socket-qa.md)）。
 
 ### 2. UDPには接続（ハンドシェイク）がない
 
@@ -121,7 +121,7 @@ Client側のポートを `-p 9068` で固定したので、DHCPと同じく「Cl
 
 ## 完了チェックの状況
 
-[手順書の完了チェック](step1-udp-tools-runbook.md#完了チェック)に対する、この記録時点での状況です。
+[手順書の完了チェック](../runbooks/step1-udp-tools-runbook.md#完了チェック)に対する、この記録時点での状況です。
 
 | チェック項目 | 状況 |
 |---|---|

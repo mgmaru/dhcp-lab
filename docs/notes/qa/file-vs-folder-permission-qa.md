@@ -1,6 +1,6 @@
 # Q&A：ファイルとフォルダで権限（rwx）の意味が違う
 
-[apt-permission-denied-qa.md](apt-permission-denied-qa.md) の「6. Linuxの権限のしくみ」を読んで出た質問と、その回答をまとめたメモです。
+[apt-permission-denied-qa.md](../troubleshooting/apt-permission-denied-qa.md) の「6. Linuxの権限のしくみ」を読んで出た質問と、その回答をまとめたメモです。
 
 > **このドキュメントで一番大事なこと**
 >
@@ -9,7 +9,7 @@
 
 関連ドキュメント：
 
-- [apt-permission-denied-qa.md](apt-permission-denied-qa.md)：Linuxの権限のしくみ（`rwx`、`755`、`644` など）の基本
+- [apt-permission-denied-qa.md](../troubleshooting/apt-permission-denied-qa.md)：Linuxの権限のしくみ（`rwx`、`755`、`644` など）の基本
 
 ## 目次
 
@@ -133,7 +133,7 @@
 | 意味 | **プログラムとして実行する** | **中に入る**（中のファイルにたどり着く） |
 | 例 | `./hello.sh` を動かす | `cd ~/debs` で移動する、`~/debs/a.deb` を読みに行く |
 
-[apt-permission-denied-qa.md](apt-permission-denied-qa.md) の6-3で「フォルダの `x`」を説明したときの「アクセス」は、**中のファイルにたどり着ける**という意味です。中のファイルを**実行する**という意味ではありません。
+[apt-permission-denied-qa.md](../troubleshooting/apt-permission-denied-qa.md) の6-3で「フォルダの `x`」を説明したときの「アクセス」は、**中のファイルにたどり着ける**という意味です。中のファイルを**実行する**という意味ではありません。
 
 ### ファイルを「読む」と「実行する」の違い
 
@@ -295,9 +295,9 @@ rm -r ~/testdir ~/hello.sh
 >
 > ファイルを消すのは、「フォルダの一覧表から名前を消す」操作です。そのため、**フォルダの `w`** が必要で、ファイル自体の権限は関係ありません。
 >
-> `/tmp` は誰でも `w` を持っているので、本来は他人のファイルも消せてしまいます。それを防ぐのが、スティッキービット（`t`）です（[apt-permission-denied-qa.md の6-4](apt-permission-denied-qa.md#6-4-記号での表し方drwx-------の読み方)）。
+> `/tmp` は誰でも `w` を持っているので、本来は他人のファイルも消せてしまいます。それを防ぐのが、スティッキービット（`t`）です（[apt-permission-denied-qa.md の6-4](../troubleshooting/apt-permission-denied-qa.md#6-4-記号での表し方drwx-------の読み方)）。
 
-> 「そのファイルがあるフォルダ」だけでなく、`/` からそこまでの**道のりにあるすべてのフォルダ**にも `x` が必要です（[apt-permission-denied-qa.md の7章](apt-permission-denied-qa.md#7-今回の事例を権限で読み解く)）。
+> 「そのファイルがあるフォルダ」だけでなく、`/` からそこまでの**道のりにあるすべてのフォルダ**にも `x` が必要です（[apt-permission-denied-qa.md の7章](../troubleshooting/apt-permission-denied-qa.md#7-今回の事例を権限で読み解く)）。
 
 > root（`sudo` を付けたコマンド）は、権限のチェックをほぼ受けないので、この表に関係なく読み書きできます。ただし、ファイルの実行だけは、誰かに `x` が付いていないとrootでもできません。
 

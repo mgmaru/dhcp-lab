@@ -1,10 +1,10 @@
 # Q&A：scpとは何か
 
-[client-vm-offline-package-install.md](client-vm-offline-package-install.md) の「5-2. .debファイルをClient VMにコピーする」を読んで出た質問と、その回答をまとめたメモです。
+[client-vm-offline-package-install.md](../troubleshooting/client-vm-offline-package-install.md) の「5-2. .debファイルをClient VMにコピーする」を読んで出た質問と、その回答をまとめたメモです。
 
 関連ドキュメント：
 
-- [client-vm-offline-package-install.md](client-vm-offline-package-install.md)：Client VMにパッケージをインストールできないときの対処（scpを使う手順）
+- [client-vm-offline-package-install.md](../troubleshooting/client-vm-offline-package-install.md)：Client VMにパッケージをインストールできないときの対処（scpを使う手順）
 - [ssh-via-vmnet2-qa.md](ssh-via-vmnet2-qa.md)：Router VMからClient VMへのSSHの経路
 
 ## 目次
@@ -109,7 +109,7 @@ scp  ~/debs/*.deb    kajih@10.0.0.10:~/debs/
 
 ## コピーの向きは3パターン
 
-[client-vm-offline-package-install.md](client-vm-offline-package-install.md) の「5-2」に書いたコピー方法①〜③は、それぞれ次のパターンに当たります。
+[client-vm-offline-package-install.md](../troubleshooting/client-vm-offline-package-install.md) の「5-2」に書いたコピー方法①〜③は、それぞれ次のパターンに当たります。
 
 ### ① 取ってくる（ダウンロード）
 

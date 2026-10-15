@@ -9,7 +9,7 @@ scp ~/debs/*.deb kajih@10.0.0.10:~/debs/
 関連ドキュメント：
 
 - [scp-qa.md](scp-qa.md)：scpとは何か
-- [client-vm-offline-package-install.md](client-vm-offline-package-install.md)：scpを使ってパッケージをコピーする手順
+- [client-vm-offline-package-install.md](../troubleshooting/client-vm-offline-package-install.md)：scpを使ってパッケージをコピーする手順
 
 ## 目次
 

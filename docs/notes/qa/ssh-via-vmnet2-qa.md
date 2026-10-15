@@ -1,14 +1,14 @@
 # Q&A：Router VMからClient VMへのSSHはどこを通っているのか
 
-[client-vm-offline-package-install.md](client-vm-offline-package-install.md) を読んで出た質問と、その回答をまとめたメモです。
+[client-vm-offline-package-install.md](../troubleshooting/client-vm-offline-package-install.md) を読んで出た質問と、その回答をまとめたメモです。
 
 外出先からRouter VMを踏み台にしてClient VMにSSHしているとき、通信がどの経路を通っているのか、`$SSH_CONNECTION` の結果をどう読むのかを扱います。
 
 関連ドキュメント：
 
-- [vm-environment.md](../vm-environment.md)：VM環境・隔離LANの構成
+- [vm-environment.md](../../vm-environment.md)：VM環境・隔離LANの構成
 - [step1-udp-socket-qa.md](step1-udp-socket-qa.md)：エフェメラルポートとDHCPのポート番号（Q2）
-- [step1-udp-tools-runbook.md](step1-udp-tools-runbook.md)：ツールでUDP通信を確認する手順書
+- [step1-udp-tools-runbook.md](../runbooks/step1-udp-tools-runbook.md)：ツールでUDP通信を確認する手順書
 
 ## 目次
 
@@ -221,7 +221,7 @@ SSHでの入り方によって、SSHクライアント（`ssh` コマンド）�
 
 IPは手順書の想定（Router `10.0.0.1` / Client `10.0.0.10`）と同じです。
 
-- [手順書](step1-udp-tools-runbook.md)の「**0-3. 固定IPを設定する**」は**飛ばしてかまいません**
+- [手順書](../runbooks/step1-udp-tools-runbook.md)の「**0-3. 固定IPを設定する**」は**飛ばしてかまいません**
 - このIPはSSHでも使っているので、**付け直したり消したりしないでください**。SSHが切れて、外出先から戻れなくなります
 
 ---

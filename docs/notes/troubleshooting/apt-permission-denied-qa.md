@@ -7,7 +7,7 @@
 関連ドキュメント：
 
 - [client-vm-offline-package-install.md](client-vm-offline-package-install.md)：Client VMにパッケージをインストールできないときの対処
-- [tilde-qa.md](tilde-qa.md)：`~`（ホームディレクトリ）とは何か
+- [tilde-qa.md](../qa/tilde-qa.md)：`~`（ホームディレクトリ）とは何か
 
 ## 目次
 
@@ -349,7 +349,7 @@ ls -l /tmp/debs
 
 > **注意：同じ文字でも、ファイルとフォルダで意味が違う**
 >
-> 特に `x` は、ファイルでは「**プログラムとして実行する**」、フォルダでは「**中に入る**」という、まったく別の意味です。フォルダの `x` は、中のファイルを実行できるという意味ではありません。詳しくは [file-vs-folder-permission-qa.md](file-vs-folder-permission-qa.md) を参照してください。
+> 特に `x` は、ファイルでは「**プログラムとして実行する**」、フォルダでは「**中に入る**」という、まったく別の意味です。フォルダの `x` は、中のファイルを実行できるという意味ではありません。詳しくは [file-vs-folder-permission-qa.md](../qa/file-vs-folder-permission-qa.md) を参照してください。
 
 > **フォルダの `x` が大事**
 >

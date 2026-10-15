@@ -5,7 +5,7 @@ STEP 1でUDP通信を確認する中で出た「ユニキャストとは何か�
 関連ドキュメント：
 
 - [step1-udp-socket-qa.md](step1-udp-socket-qa.md)：UDPソケットとDHCPのポート番号
-- [step1-udp-tools-runbook.md](step1-udp-tools-runbook.md)：ツールでUDP通信を確認する手順書
+- [step1-udp-tools-runbook.md](../runbooks/step1-udp-tools-runbook.md)：ツールでUDP通信を確認する手順書
 
 ## 目次
 

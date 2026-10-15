@@ -7,8 +7,8 @@ tcpdumpで観察したパケットを、ファイルに保存して、あとか�
 関連ドキュメント：
 
 - [step1-udp-tools-runbook.md](step1-udp-tools-runbook.md)：STEP 1の手順書（tcpdumpの基本的な使い方）
-- [apt-permission-denied-qa.md](apt-permission-denied-qa.md)：権限分離と、ホームディレクトリの権限
-- [scp-qa.md](scp-qa.md)：scpでファイルをコピーする方法
+- [apt-permission-denied-qa.md](../troubleshooting/apt-permission-denied-qa.md)：権限分離と、ホームディレクトリの権限
+- [scp-qa.md](../qa/scp-qa.md)：scpでファイルをコピーする方法
 
 ## 目次
 
@@ -134,7 +134,7 @@ tcpdump: /home/kajih/step1.pcap: Permission denied
 
 #### 原因：tcpdumpが途中で専用ユーザーに切り替わる
 
-**aptのときと同じしくみ（権限分離）**です（[apt-permission-denied-qa.md の4章](apt-permission-denied-qa.md#4-q1-aptを実行したら自動で-_apt-に降格させられたのか)）。
+**aptのときと同じしくみ（権限分離）**です（[apt-permission-denied-qa.md の4章](../troubleshooting/apt-permission-denied-qa.md#4-q1-aptを実行したら自動で-_apt-に降格させられたのか)）。
 
 ```text
  sudo tcpdump -w ~/step1.pcap
@@ -241,7 +241,7 @@ scp -J <Routerへの接続先> kajih@10.0.0.10:/tmp/captures/step1.pcap .
 scp <Routerへの接続先>:/tmp/captures/step1.pcap .
 ```
 
-> 最後の `.` は「今いるフォルダ」という意味です。scpの書き方は [scp-qa.md](scp-qa.md) を参照してください。
+> 最後の `.` は「今いるフォルダ」という意味です。scpの書き方は [scp-qa.md](../qa/scp-qa.md) を参照してください。
 
 ### 4-2. このリポジトリでの置き場所
 

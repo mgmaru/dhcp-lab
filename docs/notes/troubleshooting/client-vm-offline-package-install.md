@@ -1,6 +1,6 @@
 # Client VMにパッケージをインストールできないときの対処
 
-STEP 1の手順書（[step1-udp-tools-runbook.md](step1-udp-tools-runbook.md)）の「0-1. ツールをインストールする」で、Client VMの `apt install` が失敗しました。このドキュメントは、そのとき何が起こったのか、原因、対処の手順をまとめた記録です。
+STEP 1の手順書（[step1-udp-tools-runbook.md](../runbooks/step1-udp-tools-runbook.md)）の「0-1. ツールをインストールする」で、Client VMの `apt install` が失敗しました。このドキュメントは、そのとき何が起こったのか、原因、対処の手順をまとめた記録です。
 
 ## 目次
 
@@ -69,7 +69,7 @@ Error: Unable to fetch some archives, maybe run apt-get update or try with --fix
 
 **Client VMがインターネットにつながっていないこと**が原因です。
 
-[vm-environment.md](../vm-environment.md) の構成では、Client VMは**隔離LAN（VMnet2）にしかつながっていません**。VMnet2は、DHCPの実験が家庭内LANなどに影響しないように、わざと外に出られないようにしたネットワークです。
+[vm-environment.md](../../vm-environment.md) の構成では、Client VMは**隔離LAN（VMnet2）にしかつながっていません**。VMnet2は、DHCPの実験が家庭内LANなどに影響しないように、わざと外に出られないようにしたネットワークです。
 
 ```text
             Internet
@@ -190,7 +190,7 @@ sudo apt install -y netcat-openbsd socat tcpdump
 
 コピーの方法は3つあります。自分の環境に合わせて**どれか1つ**を使ってください。
 
-> コピーには `scp`（SSH越しにファイルをコピーするコマンド）を使います。`scp` の書き方は [scp-qa.md](scp-qa.md) にまとめています。
+> コピーには `scp`（SSH越しにファイルをコピーするコマンド）を使います。`scp` の書き方は [scp-qa.md](../qa/scp-qa.md) にまとめています。
 
 | 方法 | どこで実行するか | 向いている場合 |
 |---|---|---|
@@ -341,7 +341,7 @@ VMwareでVMnet2側アダプタの接続先を **VMnet2 → NAT** に変えてイ
 
 今回のように、Router VMを踏み台にしてClient VMにSSHしているときは、次の点に気をつけてください。
 
-> SSHの通信がどの経路を通っているのか、`$SSH_CONNECTION` の読み方などは [ssh-via-vmnet2-qa.md](ssh-via-vmnet2-qa.md) にまとめています。
+> SSHの通信がどの経路を通っているのか、`$SSH_CONNECTION` の読み方などは [ssh-via-vmnet2-qa.md](../qa/ssh-via-vmnet2-qa.md) にまとめています。
 
 ### SSHで使っているNICの設定を変えない
 
