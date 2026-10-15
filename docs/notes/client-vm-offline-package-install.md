@@ -255,10 +255,20 @@ ls ~/debs
 Client VMで実行します。
 
 ```bash
-sudo apt install -y ~/debs/*.deb
+mkdir -p /tmp/debs
+cp ~/debs/*.deb /tmp/debs/
+chmod 755 /tmp/debs
+chmod 644 /tmp/debs/*.deb
+sudo apt install -y /tmp/debs/*.deb
 ```
 
-> `apt install` にファイルのパス（`./` や `~/` で始まるもの）を渡すと、インターネットからではなく、そのファイルからインストールします。
+> `apt install` にファイルのパス（`./` や `/` で始まるもの）を渡すと、インターネットからではなく、そのファイルからインストールします。
+
+> **なぜ `/tmp/debs` にコピーし直すのか**
+>
+> `sudo apt install -y ~/debs/*.deb` のようにホームディレクトリのファイルを直接指定すると、`(13: Permission denied)` で失敗します。aptはファイルを読むときに `_apt` という専用ユーザーに切り替えますが、`_apt` は `/home/kajih` の中に入れないためです。詳しくは [apt-permission-denied-qa.md](apt-permission-denied-qa.md) を参照してください。
+>
+> `/tmp/debs` にコピーせず、`sudo dpkg -i ~/debs/*.deb` でインストールすることもできます。
 
 ### 5-4. インストールを確認する
 
@@ -277,7 +287,8 @@ tcpdump --version | head -1
 ダウンロードしたファイルは、もう使いません。必要なら削除します。
 
 ```bash
-rm -r ~/debs   # Router VM と Client VM の両方
+rm -r ~/debs     # Router VM と Client VM の両方
+rm -r /tmp/debs  # Client VM（再起動で消える場合もある）
 ```
 
 ---
@@ -359,6 +370,6 @@ SSHの通信は、VMnet2を通っています。そのNICのIPを変えたり消
 
 - **何が起こったか**：Client VMで `apt install` を実行したら、`Temporary failure resolving 'deb.debian.org'` で失敗した
 - **原因**：Client VMは隔離LAN（VMnet2）にしかつながっておらず、インターネットに出られない。これは**設計どおり**
-- **今回選んだ対処**：インターネットに出られるRouter VMで `apt download` し、`scp` でClient VMにコピーしてから、`sudo apt install ~/debs/*.deb` でインストールする
+- **今回選んだ対処**：インターネットに出られるRouter VMで `apt download` し、`scp` でClient VMにコピーしてから、`/tmp/debs` に置き直して `sudo apt install /tmp/debs/*.deb` でインストールする
 - **VMwareを操作できるとき**：一時的にNATアダプタを追加してインストールし、**終わったら必ず外す**
 - **SSHで作業しているとき**：SSHで使っているNICのIPや状態を変えない
