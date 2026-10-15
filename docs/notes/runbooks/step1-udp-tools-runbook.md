@@ -139,7 +139,7 @@ sudo tcpdump -i <LAN_IF> -n -X 'udp port 9067 or udp port 9068'
 >
 > ```bash
 > mkdir -p /tmp/captures
-> sudo tcpdump -i <LAN_IF> -n --print -w /tmp/captures/step1.pcap 'udp port 9067 or udp port 9068'
+> sudo tcpdump -i <LAN_IF> -n -U --print -w /tmp/captures/step1.pcap 'udp port 9067 or udp port 9068'
 > ```
 
 ---
@@ -258,7 +258,7 @@ echo "who is server?" | socat - UDP-DATAGRAM:255.255.255.255:9067,broadcast,bind
 
 > **以前は `sourceport=9068` と書いていました**
 >
-> `sourceport=9068` で実行すると、送信元ポートが9068番にならず、OSが自動で選んだポート（例：55975番）になりました。そのため、`bind=:9068` に修正しています。修正後のコマンドは、まだ実行して確かめていません。詳しくは [step1-results.md の結果2](../results/step1-results.md#結果2ブロードキャストsocat) を参照してください。
+> `sourceport=9068` で実行すると、送信元ポートが9068番にならず、OSが自動で選んだポート（例：55975番）になりました。そのため、`bind=:9068` に修正しています。修正後のコマンドで送信元が9068番になることは、確認済みです。詳しくは [step1-results.md の結果2と結果3](../results/step1-results.md#結果3ブロードキャストbind9068) を参照してください。
 
 **期待する結果**
 - ターミナルB（Server）に `who is server?` と表示される
