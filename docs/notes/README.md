@@ -22,7 +22,8 @@ docs/notes/
 ├── qa/                  ← Q&A：質問と、その回答
 ├── results/             ← 実施記録：手順書を実行した結果
 ├── troubleshooting/     ← トラブルの記録：実際に起きた問題と、原因・対処
-└── cheatsheets/         ← 早見表：コマンドやオプションをすぐに引けるようにまとめたもの
+├── cheatsheets/         ← 早見表：コマンドやオプションをすぐに引けるようにまとめたもの
+└── reviews/             ← レビュー記録：自分で書いたコードのレビューと、修正の経過
 ```
 
 | フォルダ | 置くもの | 迷ったときの目安 |
@@ -32,6 +33,7 @@ docs/notes/
 | `results/` | 実施記録 | 「やってみたら、こうなった」という結果の記録 |
 | `troubleshooting/` | トラブルの記録 | 「エラーが出た。原因はこれで、こう直した」という記録 |
 | `cheatsheets/` | 早見表 | 「このオプション何だっけ？」とすぐに引くための一覧 |
+| `reviews/` | レビュー記録 | 「何ができていなくて、どこまで直したか」というコードのレビューの記録 |
 
 ---
 
@@ -68,6 +70,7 @@ docs/notes/
 | [scp-qa.md](qa/scp-qa.md) | `scp` とは何か、`cp` との違い、コピーの向き3パターン | `scp`、SSH、`-3`、`-P` |
 | [tilde-qa.md](qa/tilde-qa.md) | `~`（チルダ）とは何か、scpでどのマシンのホームを指すか、どのOSで使えるか | `~`、ホームディレクトリ、チルダ展開、シェル |
 | [file-vs-folder-permission-qa.md](qa/file-vs-folder-permission-qa.md) | **ファイルとフォルダで `rwx` の意味が違う**こと。保存に実行権限は不要なこと、「読む」「実行する」「たどり着く」の違い | ファイルの `x`（実行）、フォルダの `x`（中に入る）、nano、`chmod +x` |
+| [stdout-stderr-qa.md](qa/stdout-stderr-qa.md) | **標準出力（普通の結果）と標準エラー出力（エラーやお知らせ）**の違い、リダイレクト（`>`・`2>`・`2>&1`・`\|`）、Goでの出力先、エラーの表示と終了コード | stdout、stderr、リダイレクト、パイプ、`2>&1`、終了コード、`echo $?`、`fmt`、`log` |
 
 **Go**
 
@@ -103,6 +106,14 @@ docs/notes/
 |---|---|
 | [tcpdump-cheatsheet.md](cheatsheets/tcpdump-cheatsheet.md) | tcpdumpのよく使うオプション・フィルタ・目的別のコマンド例・出力の読み方・よくあるつまずき |
 
+### reviews/：レビュー記録
+
+自分で書いたコードのレビューと、修正の経過の記録です。
+
+| ドキュメント | 対象のコード | 現在の状況 |
+|---|---|---|
+| [udp-echo-server-review.md](reviews/udp-echo-server-review.md) | `playground/udp-echo/server/` | M0（エラー処理）完了。M2（受け取り続ける）はまだ |
+
 ---
 
 ## ドキュメント同士の関係
@@ -132,8 +143,10 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
 │                 └── qa/file-vs-folder-permission-qa.md … ファイルとフォルダで rwx の意味が違う
 │
 └── playground/README.md ……………………………………… udp-echo をGoで実装する方針
-      └── qa/go-module-qa.md ……………………………… パッケージ・モジュール・go.mod
-            └── qa/go-module-download-qa.md ……… モジュールはどこから来て、どこに保存されるのか
+      ├── qa/go-module-qa.md ……………………………… パッケージ・モジュール・go.mod
+      │     └── qa/go-module-download-qa.md ……… モジュールはどこから来て、どこに保存されるのか
+      ├── qa/stdout-stderr-qa.md ……………………… 標準出力・標準エラー出力、終了コード
+      └── reviews/udp-echo-server-review.md …… udp-echo の Server のレビュー記録
 ```
 
 ---
@@ -155,6 +168,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
 | 実施記録 | `results/` | `stepN-results.md` | `step1-results.md` |
 | トラブルの記録 | `troubleshooting/` | `<起きたこと>.md` | `client-vm-offline-package-install.md` |
 | 早見表 | `cheatsheets/` | `<ツール名>-cheatsheet.md` | `tcpdump-cheatsheet.md` |
+| レビュー記録 | `reviews/` | `<対象>-review.md` | `udp-echo-server-review.md` |
 
 ### 3. リンクを書く
 
