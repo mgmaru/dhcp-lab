@@ -53,6 +53,7 @@ docs/notes/
 | ドキュメント | 内容 | 主なキーワード |
 |---|---|---|
 | [step1-udp-socket-qa.md](qa/step1-udp-socket-qa.md) | UDPソケットとは何か、TCPとの違い、DHCPのクライアント側が68番に決まっている理由 | UDP、TCP、ソケット、ポート番号、エフェメラルポート |
+| [socket-bind-qa.md](qa/socket-bind-qa.md) | **bindとは、ソケットに自分側の住所（IPアドレスとポート番号）を付けること**。bindしないとOSがポートを選ぶこと、socatの `sourceport` との違い、DHCPクライアントが68番にbindする理由 | bind、ソケット、送信元ポート、エフェメラルポート、`0.0.0.0` |
 | [unicast-broadcast-multicast.md](qa/unicast-broadcast-multicast.md) | ユニキャスト・ブロードキャスト・マルチキャストの違いと、DHCPでの使われ方 | ブロードキャスト、マルチキャスト、`255.255.255.255`、DHCPv6 |
 | [ssh-via-vmnet2-qa.md](qa/ssh-via-vmnet2-qa.md) | Router VMを踏み台にしたSSHがどこを通っているのか、`$SSH_CONNECTION` の読み方 | 踏み台、VMnet2、ルーティングテーブル、`$SSH_CONNECTION` |
 
@@ -98,6 +99,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
 └── runbooks/step1-udp-tools-runbook.md ……………… STEP 1の手順書
       │
       ├── results/step1-results.md ………………………… 手順書を実行した結果の記録
+      │     └── qa/socket-bind-qa.md ……………………………… bindとは何か（sourceport との違い）
       ├── runbooks/tcpdump-save-capture.md ………… キャプチャをファイルに保存する
       │
       └── troubleshooting/client-vm-offline-package-install.md … 0-1でaptが失敗

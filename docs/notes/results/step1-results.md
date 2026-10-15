@@ -234,6 +234,8 @@ socatの `sourceport` は、名前から「送信元ポートを決めるもの�
 
 送信元ポートを固定するには、`bind` オプションを使います。
 
+> bind とは何か、`sourceport` とどう違うのかは [socket-bind-qa.md](../qa/socket-bind-qa.md) で詳しく説明しています。
+
 ```bash
 echo "who is server?" | socat - UDP-DATAGRAM:255.255.255.255:9067,broadcast,bind=:9068
 ```
@@ -334,6 +336,8 @@ reading from file step1-3.pcap, link-type EN10MB (Ethernet), snapshot length 262
 ## 結果3からわかったこと
 
 ### 1. 送信元ポートを決めるのは `bind`
+
+> bind とは、ソケットに「自分側の住所（IPアドレスとポート番号）」を付けることです。詳しくは [socket-bind-qa.md](../qa/socket-bind-qa.md) を参照してください。
 
 ```text
  bind しない …… OSが空いているポートを自動で選ぶ（結果2：55975番）
