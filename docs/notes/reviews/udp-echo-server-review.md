@@ -10,6 +10,7 @@
 - [socket-bind-qa.md](../qa/socket-bind-qa.md)：bind とは何か
 - [socket-protocol-layers-qa.md](../qa/socket-protocol-layers-qa.md)：`"udp"` と `"udp4"` の違い
 - [stdout-stderr-qa.md](../qa/stdout-stderr-qa.md)：標準エラー出力と終了コード
+- [udp-echo-client-review.md](udp-echo-client-review.md)：Client のレビュー記録
 
 ## 目次
 

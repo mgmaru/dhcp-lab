@@ -113,6 +113,7 @@ docs/notes/
 | ドキュメント | 対象のコード | 現在の状況 |
 |---|---|---|
 | [udp-echo-server-review.md](reviews/udp-echo-server-review.md) | `playground/udp-echo/server/` | M0（エラー処理）完了。M2（受け取り続ける）はまだ |
+| [udp-echo-client-review.md](reviews/udp-echo-client-review.md) | `playground/udp-echo/client/` | M0（エラー処理）完了。M1（bind）は自分側のIPアドレスの指定を検討中。M2（送って返事を受け取る）はまだ |
 
 ---
 
@@ -146,7 +147,8 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
       ├── qa/go-module-qa.md ……………………………… パッケージ・モジュール・go.mod
       │     └── qa/go-module-download-qa.md ……… モジュールはどこから来て、どこに保存されるのか
       ├── qa/stdout-stderr-qa.md ……………………… 標準出力・標準エラー出力、終了コード（なぜ返すのか・数字の分け方）、try-catch、プログラムの中と外
-      └── reviews/udp-echo-server-review.md …… udp-echo の Server のレビュー記録
+      ├── reviews/udp-echo-server-review.md …… udp-echo の Server のレビュー記録
+      └── reviews/udp-echo-client-review.md …… udp-echo の Client のレビュー記録
 ```
 
 ---
