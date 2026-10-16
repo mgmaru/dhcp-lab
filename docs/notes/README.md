@@ -70,7 +70,7 @@ docs/notes/
 | [scp-qa.md](qa/scp-qa.md) | `scp` とは何か、`cp` との違い、コピーの向き3パターン | `scp`、SSH、`-3`、`-P` |
 | [tilde-qa.md](qa/tilde-qa.md) | `~`（チルダ）とは何か、scpでどのマシンのホームを指すか、どのOSで使えるか | `~`、ホームディレクトリ、チルダ展開、シェル |
 | [file-vs-folder-permission-qa.md](qa/file-vs-folder-permission-qa.md) | **ファイルとフォルダで `rwx` の意味が違う**こと。保存に実行権限は不要なこと、「読む」「実行する」「たどり着く」の違い | ファイルの `x`（実行）、フォルダの `x`（中に入る）、nano、`chmod +x` |
-| [stdout-stderr-qa.md](qa/stdout-stderr-qa.md) | **標準出力（普通の結果）と標準エラー出力（エラーやお知らせ）**の違い、リダイレクト（`>`・`2>`・`2>&1`・`\|`）、Goでの出力先、エラーの表示と終了コード | stdout、stderr、リダイレクト、パイプ、`2>&1`、終了コード、`echo $?`、`fmt`、`log` |
+| [stdout-stderr-qa.md](qa/stdout-stderr-qa.md) | **標準出力（普通の結果）と標準エラー出力（エラーやお知らせ）**の違い、**どちらに出すかを決めるのはプログラム**であること、区別しないと何が起こるか、try-catch との関係、プログラムの中と外（外への出口の種類）、リダイレクト（`>`・`2>`・`2>&1`・`\|`）、Goでの出力先、エラーの表示と終了コード | stdout、stderr、ファイルディスクリプタ、リダイレクト、パイプ、`2>&1`、`>&2`、終了コード、`echo $?`、`fmt`、`log`、try-catch、throw、ソケット |
 
 **Go**
 
@@ -145,7 +145,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
 └── playground/README.md ……………………………………… udp-echo をGoで実装する方針
       ├── qa/go-module-qa.md ……………………………… パッケージ・モジュール・go.mod
       │     └── qa/go-module-download-qa.md ……… モジュールはどこから来て、どこに保存されるのか
-      ├── qa/stdout-stderr-qa.md ……………………… 標準出力・標準エラー出力、終了コード
+      ├── qa/stdout-stderr-qa.md ……………………… 標準出力・標準エラー出力、終了コード、try-catch、プログラムの中と外
       └── reviews/udp-echo-server-review.md …… udp-echo の Server のレビュー記録
 ```
 
