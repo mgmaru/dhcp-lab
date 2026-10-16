@@ -112,7 +112,7 @@ docs/notes/
 
 | ドキュメント | 対象のコード | 現在の状況 |
 |---|---|---|
-| [udp-echo-server-review.md](reviews/udp-echo-server-review.md) | `playground/udp-echo/server/` | M0（エラー処理）完了。M2（受け取り続ける）に着手したが、まだ動いていない（7回目） |
+| [udp-echo-server-review.md](reviews/udp-echo-server-review.md) | `playground/udp-echo/server/` | M0（エラー処理）完了。受け取り続けられるようになった。表示に見えない文字が付く点などを修正中（8回目） |
 | [udp-echo-client-review.md](reviews/udp-echo-client-review.md) | `playground/udp-echo/client/` | M0（エラー処理）完了。M1（bind）は自分側のIPアドレスの指定を検討中。M2（送って返事を受け取る）はまだ |
 
 ---
