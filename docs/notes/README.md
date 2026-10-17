@@ -114,7 +114,7 @@ docs/notes/
 
 | ドキュメント | 対象のコード | 現在の状況 |
 |---|---|---|
-| [udp-echo-server-review.md](reviews/udp-echo-server-review.md) | `playground/udp-echo/server/` | M0・M1 完了。M2 は `defer` を戻せば完了。次は M3（送り返す）（10回目） |
+| [udp-echo-server-review.md](reviews/udp-echo-server-review.md) | `playground/udp-echo/server/` | M0〜M2 完了。次は M3（送り返す）（11回目） |
 | [udp-echo-client-review.md](reviews/udp-echo-client-review.md) | `playground/udp-echo/client/` | M0（エラー処理）完了。M1（bind）は自分側のIPアドレスの指定を検討中。M2（送って返事を受け取る）はまだ |
 
 ---
