@@ -114,7 +114,7 @@ docs/notes/
 
 | ドキュメント | 対象のコード | 現在の状況 |
 |---|---|---|
-| [udp-echo-server-review.md](reviews/udp-echo-server-review.md) | `playground/udp-echo/server/` | M0〜M2 完了。M3（送り返す）に着手したが、まだ送れていない（12回目） |
+| [udp-echo-server-review.md](reviews/udp-echo-server-review.md) | `playground/udp-echo/server/` | M0〜M3 完了。Mac の上で S1〜S4 が揃った。次は VM で動かす（13回目） |
 | [udp-echo-client-review.md](reviews/udp-echo-client-review.md) | `playground/udp-echo/client/` | M0（エラー処理）完了。M1（bind）は自分側のIPアドレスの指定を検討中。M2（送って返事を受け取る）はまだ |
 
 ---
