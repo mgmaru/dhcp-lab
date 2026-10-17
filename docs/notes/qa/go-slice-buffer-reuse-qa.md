@@ -14,6 +14,7 @@ udp-echo の Server のレビュー（[9回目](../reviews/udp-echo-server-revie
 
 - [udp-echo-server-review.md](../reviews/udp-echo-server-review.md)：Server のレビュー記録（7回目：入れ物の長さが 0、8回目：入れ物を全部表示、9回目：`buf[:n]`）
 - [udp-tcp-listen-qa.md](udp-tcp-listen-qa.md)：`ListenUDP` と受け取りの流れ
+- [go-buffer-size-and-append-qa.md](go-buffer-size-and-append-qa.md)：入れ物の大きさの決め方、切れたことへの気づき方、容量（cap）を確保すべきとき（`append`）
 
 ## 目次
 
@@ -284,12 +285,16 @@ Mac で確かめると、次のようになりました。
 **エラーにならずに、黙って切れる**ところに注意してください。UDP は、1回送った分が1回で届く（[step1-udp-socket-qa.md](step1-udp-socket-qa.md)）代わりに、入れ物に入りきらなかった分は戻ってきません。
 
 > **ヒント**：`n` が入れ物の長さとぴったり同じだったら、「切れているかもしれない」と考えられます。入れ物は、**来るかもしれない一番長いメッセージより大きく**しておきます。
+>
+> 入れ物の大きさの目安と、切れたことに確実に気づく方法（ちょうど同じ長さのメッセージと見分ける方法）は、[go-buffer-size-and-append-qa.md](go-buffer-size-and-append-qa.md) で説明しています。
 
 ---
 
 ## 9. 注意：`buf[:n]` はコピーではない
 
 ### 9-1. `buf[:n]` は、入れ物の一部を「指している」だけ
+
+> スライスを「**箱（メモリ）**」と「**札**（箱の見方を書いたメモ）」に分けて考えると、この章の話が分かりやすくなります。図は [go-buffer-size-and-append-qa.md の 5章](go-buffer-size-and-append-qa.md#5-q4-make-と-append-はメモリで何をしているのか箱と札) にあります。
 
 `buf[:n]` は、中身をコピーした新しいものではありません。**同じ入れ物の、先頭から n バイトの部分を指している**だけです。
 

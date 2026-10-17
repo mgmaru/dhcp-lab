@@ -80,6 +80,7 @@ docs/notes/
 | [go-module-qa.md](qa/go-module-qa.md) | パッケージ・モジュール・go.mod の関係と、トップディレクトリに go.mod を1つ置く理由。この演習で何がパッケージになるか、`package main`（入口）とそれ以外（部品）の違い、**1つのフォルダ ＝ 1つのパッケージ**、別のパッケージ・モジュールのコードの使い方（インポートはパッケージ単位、大文字の名前だけ公開）、`main` 関数は1フォルダに1つ、別のモジュールをつなぐ方法（`require`・`replace`・go.work）、OSSを読むときのコツ | パッケージ、モジュール、go.mod、go.work、インポートパス、`package main`、`main` 関数、`init`、エクスポート、`require`、`replace`、`go get`、`cmd/`、`internal/` |
 | [go-module-download-qa.md](qa/go-module-download-qa.md) | `require` したモジュールはどこから来て、どこに保存されるのか。npm（`node_modules`）との違い、`go get` の役割（go.mod への書き込みとダウンロード）、ビルドキャッシュの場所の決まり方 | モジュールプロキシ、モジュールキャッシュ、`~/go/pkg/mod`、go.sum、`go get`、`go mod tidy`、vendor、npm、ビルドキャッシュ、`GOCACHE` |
 | [go-slice-buffer-reuse-qa.md](qa/go-slice-buffer-reuse-qa.md) | **受け取り用の入れ物を使い回しても、`buf[:n]` なら前のデータが混ざらない理由**。受け取りのメソッドは先頭から書き込み、n より後ろには何もしないこと。スライスの長さと容量、入れ物より長いメッセージは黙って切れること、**`buf[:n]` はコピーではなく指しているだけ**で、取っておくなら `string(…)` などでコピーすること | スライス、`[]byte`、`make`、len、cap、`buf[:n]`、バッファの使い回し、切り捨て、コピー、`string()` |
+| [go-buffer-size-and-append-qa.md](qa/go-buffer-size-and-append-qa.md) | **受け取り用の入れ物の大きさ**の決め方（IPv4 の UDP の最大 65507バイト、DHCP は 576バイト以上）。入れ物より大きいメッセージは黙って切れること、**「最大＋1バイト」で切れたことに気づく**方法。**`make` は容量の分を確保する**のでメモリは減らないこと。**受け取りには長さ、`append` には容量**を指定する理由。**スライスは「箱」と「札」**でできていて、`append` は空きがなければ大きい箱に**引っ越す**こと | スライス、len、cap、`make`、`append`、バッファの大きさ、切り捨て、`MSG_TRUNC`、65507、メモリの確保、箱と札、引っ越し、連結リスト |
 
 > Linuxの権限の基本（`rwx`、`755`、`644`、フォルダ構成）は、トラブルの記録 [apt-permission-denied-qa.md](troubleshooting/apt-permission-denied-qa.md) の6章で詳しく説明しています。
 
@@ -151,6 +152,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
       │     └── qa/go-module-download-qa.md ……… モジュールはどこから来て、どこに保存されるのか
       ├── qa/stdout-stderr-qa.md ……………………… 標準出力・標準エラー出力、終了コード（なぜ返すのか・数字の分け方）、try-catch、プログラムの中と外
       ├── qa/go-slice-buffer-reuse-qa.md ………… 受け取り用の入れ物の使い回しと buf[:n]、スライスはコピーではない
+      │     └── qa/go-buffer-size-and-append-qa.md … 入れ物の大きさ、長さと容量の使い分け（append）、make と append がメモリでしていること（箱と札）
       ├── reviews/udp-echo-server-review.md …… udp-echo の Server のレビュー記録
       └── reviews/udp-echo-client-review.md …… udp-echo の Client のレビュー記録
 ```
