@@ -35,6 +35,15 @@ func main() {
 			fmt.Fprintln(os.Stderr, err)
 			continue
 		}
+
+		// display client Addr and recieved message
 		fmt.Println(clientAddr, string(buf[:n]))
+
+		// send messgage to client
+		_, err = conn.WriteToUDPAddrPort(buf[:n], clientAddr)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			continue
+		}
 	}
 }
