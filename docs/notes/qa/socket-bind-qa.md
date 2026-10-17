@@ -13,6 +13,7 @@
 - [step1-results.md](../results/step1-results.md)：STEP 1の実施記録（結果2：`sourceport` が効かなかった、結果3：`bind` で解決した）
 - [step1-udp-socket-qa.md](step1-udp-socket-qa.md)：UDPソケット、エフェメラルポート、DHCPのクライアント側が68番に決まっている理由
 - [socket-protocol-layers-qa.md](socket-protocol-layers-qa.md)：ソケットを作るときに指定するプロトコル（UDP/TCP）と、ネットワークの層
+- [udp-tcp-listen-qa.md](udp-tcp-listen-qa.md)：Go の `ResolveUDPAddr`・`ListenUDP` が何をしているか（`ListenUDP` は socket と bind をまとめてやる）、TCP の listen との違い
 
 ## 目次
 

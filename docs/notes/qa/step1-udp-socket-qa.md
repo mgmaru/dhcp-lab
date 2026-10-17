@@ -65,6 +65,8 @@ UDP:  socket → bind → recvfrom（データを待つ）→ sendto（送信元
 
 これがSTEP 1の確認項目「UDPでは接続という概念がTCPとどう違うのか」の答えです。
 
+> TCP の `listen` と `accept` が何をしているのか、Go の `ListenUDP` の「Listen」が TCP の listen とどう違うのかは、[udp-tcp-listen-qa.md](udp-tcp-listen-qa.md) で図を使ってくわしく説明しています。
+
 ### DHCPがUDPを使う理由
 
 1. **ClientにまだIPアドレスがない**

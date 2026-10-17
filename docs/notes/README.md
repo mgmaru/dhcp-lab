@@ -59,6 +59,7 @@ docs/notes/
 | [step1-udp-socket-qa.md](qa/step1-udp-socket-qa.md) | UDPソケットとは何か、TCPとの違い、DHCPのクライアント側が68番に決まっている理由 | UDP、TCP、ソケット、ポート番号、エフェメラルポート |
 | [socket-protocol-layers-qa.md](qa/socket-protocol-layers-qa.md) | **ネットワークの層**（アプリケーション・トランスポート・ネットワーク・リンク）と、**ソケットはその境目の窓口**であること。ソケットに指定するのはUDP/TCPまでで、DHCPやHTTPは指定しない理由 | 層、カプセル化、ソケット、`udp4`、HTTP、DHCP |
 | [socket-bind-qa.md](qa/socket-bind-qa.md) | **bindとは、ソケットに自分側の住所（IPアドレスとポート番号）を付けること**。bindしないとOSがポートを選ぶこと、socatの `sourceport` との違い、DHCPクライアントが68番にbindする理由 | bind、ソケット、送信元ポート、エフェメラルポート、`0.0.0.0` |
+| [udp-tcp-listen-qa.md](qa/udp-tcp-listen-qa.md) | Go の **`ResolveUDPAddr`（文字列を住所に変換するだけ）と `ListenUDP`（socket と bind をまとめてやる）**の違い。`ListenUDP` の「Listen」が TCP の listen と違うこと。**TCP の listen は接続の申し込みを受け付け始める段階**で、accept が相手ごとのソケットを返すこと。UDP と TCP の違いを図で比較 | `ResolveUDPAddr`、`ListenUDP`、`DialUDP`、listen、accept、backlog、3ウェイハンドシェイク、`UNCONN`、`LISTEN` |
 | [unicast-broadcast-multicast.md](qa/unicast-broadcast-multicast.md) | ユニキャスト・ブロードキャスト・マルチキャストの違いと、DHCPでの使われ方 | ブロードキャスト、マルチキャスト、`255.255.255.255`、DHCPv6 |
 | [ssh-via-vmnet2-qa.md](qa/ssh-via-vmnet2-qa.md) | Router VMを踏み台にしたSSHがどこを通っているのか、`$SSH_CONNECTION` の読み方 | 踏み台、VMnet2、ルーティングテーブル、`$SSH_CONNECTION` |
 | [tcpdump-n-option-qa.md](qa/tcpdump-n-option-qa.md) | tcpdumpの `-n` オプションの意味。付けないとIPアドレスやポート番号が名前（`68` → `bootpc` など）で表示されること、数字で見るのがおすすめな理由 | `-n`、`/etc/services`、`/etc/hosts`、`bootps`、`bootpc` |
@@ -78,6 +79,7 @@ docs/notes/
 |---|---|---|
 | [go-module-qa.md](qa/go-module-qa.md) | パッケージ・モジュール・go.mod の関係と、トップディレクトリに go.mod を1つ置く理由。この演習で何がパッケージになるか、`package main`（入口）とそれ以外（部品）の違い、**1つのフォルダ ＝ 1つのパッケージ**、別のパッケージ・モジュールのコードの使い方（インポートはパッケージ単位、大文字の名前だけ公開）、`main` 関数は1フォルダに1つ、別のモジュールをつなぐ方法（`require`・`replace`・go.work）、OSSを読むときのコツ | パッケージ、モジュール、go.mod、go.work、インポートパス、`package main`、`main` 関数、`init`、エクスポート、`require`、`replace`、`go get`、`cmd/`、`internal/` |
 | [go-module-download-qa.md](qa/go-module-download-qa.md) | `require` したモジュールはどこから来て、どこに保存されるのか。npm（`node_modules`）との違い、`go get` の役割（go.mod への書き込みとダウンロード）、ビルドキャッシュの場所の決まり方 | モジュールプロキシ、モジュールキャッシュ、`~/go/pkg/mod`、go.sum、`go get`、`go mod tidy`、vendor、npm、ビルドキャッシュ、`GOCACHE` |
+| [go-slice-buffer-reuse-qa.md](qa/go-slice-buffer-reuse-qa.md) | **受け取り用の入れ物を使い回しても、`buf[:n]` なら前のデータが混ざらない理由**。受け取りのメソッドは先頭から書き込み、n より後ろには何もしないこと。スライスの長さと容量、入れ物より長いメッセージは黙って切れること、**`buf[:n]` はコピーではなく指しているだけ**で、取っておくなら `string(…)` などでコピーすること | スライス、`[]byte`、`make`、len、cap、`buf[:n]`、バッファの使い回し、切り捨て、コピー、`string()` |
 
 > Linuxの権限の基本（`rwx`、`755`、`644`、フォルダ構成）は、トラブルの記録 [apt-permission-denied-qa.md](troubleshooting/apt-permission-denied-qa.md) の6章で詳しく説明しています。
 
@@ -112,7 +114,7 @@ docs/notes/
 
 | ドキュメント | 対象のコード | 現在の状況 |
 |---|---|---|
-| [udp-echo-server-review.md](reviews/udp-echo-server-review.md) | `playground/udp-echo/server/` | M0（エラー処理）完了。S2（送信元とデータの表示）を満たした。受け取りのエラー処理などを修正中（9回目） |
+| [udp-echo-server-review.md](reviews/udp-echo-server-review.md) | `playground/udp-echo/server/` | M0・M1 完了。M2 は `defer` を戻せば完了。次は M3（送り返す）（10回目） |
 | [udp-echo-client-review.md](reviews/udp-echo-client-review.md) | `playground/udp-echo/client/` | M0（エラー処理）完了。M1（bind）は自分側のIPアドレスの指定を検討中。M2（送って返事を受け取る）はまだ |
 
 ---
@@ -126,7 +128,8 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
 │
 ├── qa/step1-udp-socket-qa.md ………………………… UDPソケットとポート番号
 │     ├── qa/socket-protocol-layers-qa.md ………… ソケットに指定するプロトコルと、ネットワークの層
-│     └── qa/unicast-broadcast-multicast.md ……… 送り先の種類
+│     ├── qa/unicast-broadcast-multicast.md ……… 送り先の種類
+│     └── qa/udp-tcp-listen-qa.md ………………………… ResolveUDPAddr・ListenUDP の中身、TCP の listen、UDP と TCP の違い
 │
 ├── runbooks/step1-udp-tools-runbook.md ……………… STEP 1の手順書
 │     │
@@ -147,6 +150,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
       ├── qa/go-module-qa.md ……………………………… パッケージ・モジュール・go.mod
       │     └── qa/go-module-download-qa.md ……… モジュールはどこから来て、どこに保存されるのか
       ├── qa/stdout-stderr-qa.md ……………………… 標準出力・標準エラー出力、終了コード（なぜ返すのか・数字の分け方）、try-catch、プログラムの中と外
+      ├── qa/go-slice-buffer-reuse-qa.md ………… 受け取り用の入れ物の使い回しと buf[:n]、スライスはコピーではない
       ├── reviews/udp-echo-server-review.md …… udp-echo の Server のレビュー記録
       └── reviews/udp-echo-client-review.md …… udp-echo の Client のレビュー記録
 ```
