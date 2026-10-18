@@ -86,6 +86,12 @@ docs/notes/
 | [go-slice-memory-basics-qa.md](qa/go-slice-memory-basics-qa.md) | **メモリとスライスの基礎**。メモリの最小の単位は**1バイト（1マス）**で、スライスの箱（要素1個）の大きさは型によって違うこと（`int` は64ビットのマシンで8バイト）。長さと容量は箱の数で数えること。最初の容量は32バイト分、`append` の容量は**直前の容量をもとに、小さいうちは2倍、大きくなると1.25倍に近づく**こと。余る空きの数は計算で決まること。溢れたら箱を足すのではなく**大きい箱の列に引っ越す**こと | メモリ、番地、バイト、`int`、`int32`、64ビット、`append`、容量の増え方、メモリの区切り、ゴミ集め |
 | [go-send-buffer-and-copy-qa.md](qa/go-send-buffer-and-copy-qa.md) | **送る側にも入れ物は要るのか**。受け取りは OS が**書く**場所が要るが、送信は OS が**読む**データがあればよいこと、入れ物を全部送ると余計な0まで送られること。DHCP のように**決まった位置にフィールドを詰める**方法（直接代入・`binary.BigEndian.PutUint32`・`copy`）、構造体＋変換メソッドがおすすめな理由、練習用のミニフォーマット。**`copy(dst, src)` のしくみ**（先頭から上書き、短い方に合わせる、溢れた分は捨てる）、**書く位置は `dst` の切り出し方で決める**こと、切り出しても**新しい箱はできない**こと | `copy`、dst、src、`[]byte`、送信、`WriteToUDP`、オフセット、ビッグエンディアン、`binary.BigEndian`、`PutUint32`、DHCP のメッセージの形、構造体、`binary.Write`、`BinaryMarshaler`、切り出し、箱と札、GC、エスケープ解析 |
 
+**データの表し方（情報工学の基礎）**
+
+| ドキュメント | 内容 | 主なキーワード |
+|---|---|---|
+| [integer-size-and-byte-format-qa.md](qa/integer-size-and-byte-format-qa.md) | **ビットとバイト**（1バイト＝8ビット＝256通り、だから **0〜255**）、16進数でバイトを読む方法。Go の **`int` は8バイト**（64ビットのマシン）で、`uint32` は4バイト。固定長の欄は**値が小さくても決まったバイト数を全部使う**こと。**Go の型とフォーマットの大きさは別のもの**で、違うときは変換すること。大きい型から小さい型への変換は**圧縮ではなく切り捨て**で、範囲外の値は**エラーなしで壊れる**（300 → 44、−1 → 255）ので、変換の前に範囲を確かめること。ビッグエンディアン。ミニフォーマットの `buf` の長さと、コマンド引数（`flag`）での受け取り方 | ビット、バイト、2ⁿ、0〜255、16進数、`int`、`byte`、`uint8`、`uint32`、符号あり・なし、2の補数、型の変換、切り捨て、オーバーフロー、範囲チェック、ビッグエンディアン、`flag`、固定長、可変長 |
+
 > Linuxの権限の基本（`rwx`、`755`、`644`、フォルダ構成）は、トラブルの記録 [apt-permission-denied-qa.md](troubleshooting/apt-permission-denied-qa.md) の6章で詳しく説明しています。
 
 ### results/：実施記録
@@ -163,6 +169,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
       ├── reviews/udp-echo-server-review.md …… udp-echo の Server のレビュー記録
       └── reviews/udp-echo-client-review.md …… udp-echo の Client のレビュー記録
             └── qa/go-send-buffer-and-copy-qa.md … 送る側の入れ物、フィールドの詰め方、copy のしくみ（dst の切り出しと箱と札）
+                  └── qa/integer-size-and-byte-format-qa.md … ビットとバイト、int の大きさ、型とフォーマットの大きさ、変換は切り捨て
 ```
 
 ---

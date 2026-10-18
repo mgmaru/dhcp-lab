@@ -18,6 +18,7 @@ udp-echo の Client（`playground/udp-echo/client/main.go`）を書いている�
 - [go-buffer-size-and-append-qa.md](go-buffer-size-and-append-qa.md)：スライスの「箱」と「札」（5章）、長さと容量（6章）
 - [udp-message-size-qa.md](udp-message-size-qa.md)：DHCP のメッセージの形（240バイトの決まった形、magic cookie、オプション）
 - [udp-echo-client-review.md](../reviews/udp-echo-client-review.md)：udp-echo の Client のレビュー記録
+- [integer-size-and-byte-format-qa.md](integer-size-and-byte-format-qa.md)：ミニフォーマットの続き。ビットとバイト、`int` の大きさ、型の変換は切り捨てであること
 
 ## 目次
 
