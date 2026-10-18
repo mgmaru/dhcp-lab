@@ -15,6 +15,7 @@ udp-echo の Server のレビュー（[9回目](../reviews/udp-echo-server-revie
 - [udp-echo-server-review.md](../reviews/udp-echo-server-review.md)：Server のレビュー記録（7回目：入れ物の長さが 0、8回目：入れ物を全部表示、9回目：`buf[:n]`）
 - [udp-tcp-listen-qa.md](udp-tcp-listen-qa.md)：`ListenUDP` と受け取りの流れ
 - [go-buffer-size-and-append-qa.md](go-buffer-size-and-append-qa.md)：入れ物の大きさの決め方、切れたことへの気づき方、容量（cap）を確保すべきとき（`append`）
+- [go-send-buffer-and-copy-qa.md](go-send-buffer-and-copy-qa.md)：送る側の入れ物、`copy` で切り出した位置に書き込むしくみ（切り出しても箱は増えない）
 
 ## 目次
 
