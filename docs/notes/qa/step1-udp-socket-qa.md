@@ -78,6 +78,8 @@ UDP:  socket → bind → recvfrom（データを待つ）→ sendto（送信元
 
 UDPは届くことを保証しないので、DHCPは自分で対処します。
 
+> UDP の1通の大きさの限界（65507バイト）や、それより大きいデータを送る方法（TCP を使う、TFTP のように区切る）は、[udp-message-size-qa.md](udp-message-size-qa.md) で説明しています。
+
 - 返事がなければ、Clientがもう一度送る
 - どの返事がどの要求に対応するかは `xid`（トランザクションID）で見分ける
 

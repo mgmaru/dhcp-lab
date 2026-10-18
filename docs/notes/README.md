@@ -60,6 +60,7 @@ docs/notes/
 | [socket-protocol-layers-qa.md](qa/socket-protocol-layers-qa.md) | **ネットワークの層**（アプリケーション・トランスポート・ネットワーク・リンク）と、**ソケットはその境目の窓口**であること。ソケットに指定するのはUDP/TCPまでで、DHCPやHTTPは指定しない理由 | 層、カプセル化、ソケット、`udp4`、HTTP、DHCP |
 | [socket-bind-qa.md](qa/socket-bind-qa.md) | **bindとは、ソケットに自分側の住所（IPアドレスとポート番号）を付けること**。bindしないとOSがポートを選ぶこと、socatの `sourceport` との違い、DHCPクライアントが68番にbindする理由 | bind、ソケット、送信元ポート、エフェメラルポート、`0.0.0.0` |
 | [udp-tcp-listen-qa.md](qa/udp-tcp-listen-qa.md) | Go の **`ResolveUDPAddr`（文字列を住所に変換するだけ）と `ListenUDP`（socket と bind をまとめてやる）**の違い。`ListenUDP` の「Listen」が TCP の listen と違うこと。**TCP の listen は接続の申し込みを受け付け始める段階**で、accept が相手ごとのソケットを返すこと。UDP と TCP の違いを図で比較 | `ResolveUDPAddr`、`ListenUDP`、`DialUDP`、listen、accept、backlog、3ウェイハンドシェイク、`UNCONN`、`LISTEN` |
+| [udp-message-size-qa.md](qa/udp-message-size-qa.md) | **UDP のメッセージの大きさ**。今の Server は大きいメッセージを**黙って切って使う**こと、UDP の上限（**IPv4 で65507バイト**）以上の入れ物なら切れないこと、DHCP の576バイトは**クライアントが受け取る側**のルールであること。UDP には**シーケンス番号がなく1通で完結**すること、IP フラグメンテーション、大きいデータは **TCP を使う**か**区切る決まりを自分で作る**こと（TFTP・DNS・QUIC の例） | UDP、65507、576、Maximum DHCP Message Size、シーケンス番号、IP フラグメンテーション、1472、TCP、TFTP、DNS、QUIC、xid |
 | [unicast-broadcast-multicast.md](qa/unicast-broadcast-multicast.md) | ユニキャスト・ブロードキャスト・マルチキャストの違いと、DHCPでの使われ方 | ブロードキャスト、マルチキャスト、`255.255.255.255`、DHCPv6 |
 | [ssh-via-vmnet2-qa.md](qa/ssh-via-vmnet2-qa.md) | Router VMを踏み台にしたSSHがどこを通っているのか、`$SSH_CONNECTION` の読み方 | 踏み台、VMnet2、ルーティングテーブル、`$SSH_CONNECTION` |
 | [tcpdump-n-option-qa.md](qa/tcpdump-n-option-qa.md) | tcpdumpの `-n` オプションの意味。付けないとIPアドレスやポート番号が名前（`68` → `bootpc` など）で表示されること、数字で見るのがおすすめな理由 | `-n`、`/etc/services`、`/etc/hosts`、`bootps`、`bootpc` |
@@ -131,7 +132,8 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
 ├── qa/step1-udp-socket-qa.md ………………………… UDPソケットとポート番号
 │     ├── qa/socket-protocol-layers-qa.md ………… ソケットに指定するプロトコルと、ネットワークの層
 │     ├── qa/unicast-broadcast-multicast.md ……… 送り先の種類
-│     └── qa/udp-tcp-listen-qa.md ………………………… ResolveUDPAddr・ListenUDP の中身、TCP の listen、UDP と TCP の違い
+│     ├── qa/udp-tcp-listen-qa.md ………………………… ResolveUDPAddr・ListenUDP の中身、TCP の listen、UDP と TCP の違い
+│     └── qa/udp-message-size-qa.md ……………………… UDP の1通の大きさ、DHCP サーバーの入れ物、大きいデータの送り方
 │
 ├── runbooks/step1-udp-tools-runbook.md ……………… STEP 1の手順書
 │     │
