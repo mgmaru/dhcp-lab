@@ -63,6 +63,7 @@ docs/notes/
 | [udp-message-size-qa.md](qa/udp-message-size-qa.md) | **UDP のメッセージの大きさ**。今の Server は大きいメッセージを**黙って切って使う**こと、UDP の上限（**IPv4 で65507バイト**）以上の入れ物なら切れないこと、DHCP の576バイトは**クライアントが受け取る側**のルールであること。UDP には**シーケンス番号がなく1通で完結**すること、IP フラグメンテーション、大きいデータは **TCP を使う**か**区切る決まりを自分で作る**こと（TFTP・DNS・QUIC の例）。**形を確かめる**とは、OS が外した UDP ヘッダーではなく、**DHCP のメッセージの形**（240バイトの決まった形、magic cookie、オプションの3つ組）を確かめること。TCP の**並べ直しは OS がやる**こと | UDP、65507、576、Maximum DHCP Message Size、シーケンス番号、IP フラグメンテーション、1472、TCP、TFTP、DNS、QUIC、xid、DHCP のメッセージの形、magic cookie、オプション、op、受信バッファ、並べ直し、ACK |
 | [tcp-stream-and-http-framing-qa.md](qa/tcp-stream-and-http-framing-qa.md) | **TCP には「データの区切り」がない**こと（送った回数と受け取った回数は一致しない。くっつく・分かれる）。区切りを作る方法（**長さを先に送る**、**区切りの文字**）。**TCP は「正しく全部届ける」、HTTP は「区切りと意味」**を担当する層の役割分担。HTTP/1.1 の Content-Length・チャンク形式、区切りの読み違い（リクエストスマグリング）、HTTP/2 のフレーム。UDP と TCP は守るものが反対 | TCP、バイトストリーム、区切り、フレーミング、Content-Length、chunked、HTTP/2、フレーム、ストリーム ID、`io.ReadFull`、`bufio`、層の役割分担 |
 | [unicast-broadcast-multicast.md](qa/unicast-broadcast-multicast.md) | ユニキャスト・ブロードキャスト・マルチキャストの違いと、DHCPでの使われ方 | ブロードキャスト、マルチキャスト、`255.255.255.255`、DHCPv6 |
+| [special-address-0000-qa.md](qa/special-address-0000-qa.md) | **`0.0.0.0` とは何か**（特定のアドレスではない）。**bind では「自分の全部のアドレスで受ける」、宛先では「決まっていない」**ので送れないこと（Mac では `no route to host`）。宛先には `127.0.0.1`・`10.0.0.1`・`255.255.255.255` を使い分けること。ソケットは**プロトコル・IPアドレス・ポート番号の組**で区別され、ポートが違えばぶつからないこと、`0.0.0.0:9067` と `127.0.0.1:9067` は範囲が重なってぶつかること。ループバック、デフォルトルート `0.0.0.0/0`、DHCP の送信元 `0.0.0.0` | `0.0.0.0`、unspecified、bind、宛先、`127.0.0.1`、ループバック、`localhost`、`255.255.255.255`、`0.0.0.0/0`、デフォルトルート、`address already in use`、`no route to host`、`lsof`、`ss`、`SO_REUSEADDR`、DHCPDISCOVER |
 | [ssh-via-vmnet2-qa.md](qa/ssh-via-vmnet2-qa.md) | Router VMを踏み台にしたSSHがどこを通っているのか、`$SSH_CONNECTION` の読み方 | 踏み台、VMnet2、ルーティングテーブル、`$SSH_CONNECTION` |
 | [tcpdump-n-option-qa.md](qa/tcpdump-n-option-qa.md) | tcpdumpの `-n` オプションの意味。付けないとIPアドレスやポート番号が名前（`68` → `bootpc` など）で表示されること、数字で見るのがおすすめな理由 | `-n`、`/etc/services`、`/etc/hosts`、`bootps`、`bootpc` |
 
@@ -169,9 +170,10 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
       │           └── qa/go-slice-memory-basics-qa.md … メモリの1マスとスライスの箱、型の大きさ、append で容量が増えるしくみ
       ├── reviews/udp-echo-server-review.md …… udp-echo の Server のレビュー記録
       └── reviews/udp-echo-client-review.md …… udp-echo の Client のレビュー記録
-            └── qa/go-send-buffer-and-copy-qa.md … 送る側の入れ物、フィールドの詰め方、copy のしくみ（dst の切り出しと箱と札）
-                  └── qa/integer-size-and-byte-format-qa.md … ビットとバイト、int の大きさ、型とフォーマットの大きさ、変換は切り捨て
-                        └── qa/byte-sequence-and-interpretation-qa.md … バイト列とは、同じバイトを何で読み分けるか、エンコード、文字列と UTF-8
+            ├── qa/go-send-buffer-and-copy-qa.md … 送る側の入れ物、フィールドの詰め方、copy のしくみ（dst の切り出しと箱と札）
+            │     └── qa/integer-size-and-byte-format-qa.md … ビットとバイト、int の大きさ、型とフォーマットの大きさ、変換は切り捨て
+            │           └── qa/byte-sequence-and-interpretation-qa.md … バイト列とは、同じバイトを何で読み分けるか、エンコード、文字列と UTF-8
+            └── qa/special-address-0000-qa.md … 0.0.0.0 とは（bind と宛先で意味が違う）、ソケットがぶつかる条件、特別なアドレス
 ```
 
 ---

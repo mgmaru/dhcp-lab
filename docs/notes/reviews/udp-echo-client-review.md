@@ -270,6 +270,8 @@ listen udp4 10.0.0.10:9068: bind: can't assign requested address
        Router VM の nc・Server へ … 10.0.0.1（README の C2）
 ```
 
+> `0.0.0.0` が bind と宛先で意味が変わる理由や、宛先を `0.0.0.0` にしても届かないことは、[special-address-0000-qa.md](../qa/special-address-0000-qa.md) にまとめました。
+
 #7 は、「**同じバイトでも、読み方で意味が変わる**」の実例です（[byte-sequence-and-interpretation-qa.md](../qa/byte-sequence-and-interpretation-qa.md) の2-3）。
 
 ```text

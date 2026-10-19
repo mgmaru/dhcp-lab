@@ -14,6 +14,7 @@
 - [step1-udp-socket-qa.md](step1-udp-socket-qa.md)：UDPソケット、エフェメラルポート、DHCPのクライアント側が68番に決まっている理由
 - [socket-protocol-layers-qa.md](socket-protocol-layers-qa.md)：ソケットを作るときに指定するプロトコル（UDP/TCP）と、ネットワークの層
 - [udp-tcp-listen-qa.md](udp-tcp-listen-qa.md)：Go の `ResolveUDPAddr`・`ListenUDP` が何をしているか（`ListenUDP` は socket と bind をまとめてやる）、TCP の listen との違い
+- [special-address-0000-qa.md](special-address-0000-qa.md)：`0.0.0.0` は bind と宛先で意味が違うこと、ソケットがぶつかる条件
 
 ## 目次
 
