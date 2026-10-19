@@ -64,6 +64,7 @@ docs/notes/
 | [tcp-stream-and-http-framing-qa.md](qa/tcp-stream-and-http-framing-qa.md) | **TCP には「データの区切り」がない**こと（送った回数と受け取った回数は一致しない。くっつく・分かれる）。区切りを作る方法（**長さを先に送る**、**区切りの文字**）。**TCP は「正しく全部届ける」、HTTP は「区切りと意味」**を担当する層の役割分担。HTTP/1.1 の Content-Length・チャンク形式、区切りの読み違い（リクエストスマグリング）、HTTP/2 のフレーム。UDP と TCP は守るものが反対 | TCP、バイトストリーム、区切り、フレーミング、Content-Length、chunked、HTTP/2、フレーム、ストリーム ID、`io.ReadFull`、`bufio`、層の役割分担 |
 | [unicast-broadcast-multicast.md](qa/unicast-broadcast-multicast.md) | ユニキャスト・ブロードキャスト・マルチキャストの違いと、DHCPでの使われ方 | ブロードキャスト、マルチキャスト、`255.255.255.255`、DHCPv6 |
 | [special-address-0000-qa.md](qa/special-address-0000-qa.md) | **`0.0.0.0` とは何か**（特定のアドレスではない）。**bind では「自分の全部のアドレスで受ける」、宛先では「決まっていない」**ので送れないこと（Mac では `no route to host`）。宛先には `127.0.0.1`・`10.0.0.1`・`255.255.255.255` を使い分けること。ソケットは**プロトコル・IPアドレス・ポート番号の組**で区別され、ポートが違えばぶつからないこと、`0.0.0.0:9067` と `127.0.0.1:9067` は範囲が重なってぶつかること。ループバック、デフォルトルート `0.0.0.0/0`、DHCP の送信元 `0.0.0.0` | `0.0.0.0`、unspecified、bind、宛先、`127.0.0.1`、ループバック、`localhost`、`255.255.255.255`、`0.0.0.0/0`、デフォルトルート、`address already in use`、`no route to host`、`lsof`、`ss`、`SO_REUSEADDR`、DHCPDISCOVER |
+| [dhcp-lease-renew-rebind-qa.md](qa/dhcp-lease-renew-rebind-qa.md) | **DHCP のリース**（IPアドレスは期限付きの貸し出し）と**更新の流れ**。**T1（50%）でアドレスをくれたサーバーにユニキャスト**（RENEWING）、**T2（87.5%）までに返事がなければブロードキャスト**（REBINDING）、期限切れや NAK で最初からやり直すこと。なぜユニキャスト → ブロードキャストの順なのか、クライアントの状態（INIT〜REBINDING）、送り直しの間隔、最初にもらうとき（DISCOVER）との違い。udp-echo では切り替えをせず、引数で1つ選ぶ理由 | リース、Lease Time、T1、T2、オプション51・58・59、RENEWING、REBINDING、BOUND、INIT、DHCPREQUEST、DHCPACK、DHCPNAK、状態、送り直し、ユニキャスト、ブロードキャスト、タイムアウト、RFC 2131 |
 | [ssh-via-vmnet2-qa.md](qa/ssh-via-vmnet2-qa.md) | Router VMを踏み台にしたSSHがどこを通っているのか、`$SSH_CONNECTION` の読み方 | 踏み台、VMnet2、ルーティングテーブル、`$SSH_CONNECTION` |
 | [tcpdump-n-option-qa.md](qa/tcpdump-n-option-qa.md) | tcpdumpの `-n` オプションの意味。付けないとIPアドレスやポート番号が名前（`68` → `bootpc` など）で表示されること、数字で見るのがおすすめな理由 | `-n`、`/etc/services`、`/etc/hosts`、`bootps`、`bootpc` |
 
@@ -173,7 +174,8 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
             ├── qa/go-send-buffer-and-copy-qa.md … 送る側の入れ物、フィールドの詰め方、copy のしくみ（dst の切り出しと箱と札）
             │     └── qa/integer-size-and-byte-format-qa.md … ビットとバイト、int の大きさ、型とフォーマットの大きさ、変換は切り捨て
             │           └── qa/byte-sequence-and-interpretation-qa.md … バイト列とは、同じバイトを何で読み分けるか、エンコード、文字列と UTF-8
-            └── qa/special-address-0000-qa.md … 0.0.0.0 とは（bind と宛先で意味が違う）、ソケットがぶつかる条件、特別なアドレス
+            ├── qa/special-address-0000-qa.md … 0.0.0.0 とは（bind と宛先で意味が違う）、ソケットがぶつかる条件、特別なアドレス
+            └── qa/dhcp-lease-renew-rebind-qa.md … DHCP のリースと更新（T1 でユニキャスト、T2 でブロードキャスト）、udp-echo との違い
 ```
 
 ---
