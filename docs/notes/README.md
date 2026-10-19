@@ -127,7 +127,7 @@ docs/notes/
 | ドキュメント | 対象のコード | 現在の状況 |
 |---|---|---|
 | [udp-echo-server-review.md](reviews/udp-echo-server-review.md) | `playground/udp-echo/server/` | M0〜M3 完了。Mac の上で S1〜S4 が揃った。次は VM で動かす（13回目） |
-| [udp-echo-client-review.md](reviews/udp-echo-client-review.md) | `playground/udp-echo/client/` | M0（エラー処理）完了。M1（bind）は自分側のIPアドレスの指定を検討中。M2（送って返事を受け取る）はまだ |
+| [udp-echo-client-review.md](reviews/udp-echo-client-review.md) | `playground/udp-echo/client/` | M0（エラー処理）・M1（bind）完了。M2（送って返事を受け取る）は途中：ミニフォーマットの組み立ては正しいが、宛先にIPアドレスがなく送信に失敗する。引数のチェック・送信のエラーの後に終了しない、返事の受け取りはまだ |
 
 ---
 
