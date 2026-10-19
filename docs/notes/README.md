@@ -91,6 +91,7 @@ docs/notes/
 | ドキュメント | 内容 | 主なキーワード |
 |---|---|---|
 | [integer-size-and-byte-format-qa.md](qa/integer-size-and-byte-format-qa.md) | **ビットとバイト**（1バイト＝8ビット＝256通り、だから **0〜255**）、16進数でバイトを読む方法。Go の **`int` は8バイト**（64ビットのマシン）で、`uint32` は4バイト。固定長の欄は**値が小さくても決まったバイト数を全部使う**こと。**Go の型とフォーマットの大きさは別のもの**で、違うときは変換すること。大きい型から小さい型への変換は**圧縮ではなく切り捨て**で、範囲外の値は**エラーなしで壊れる**（300 → 44、−1 → 255）ので、変換の前に範囲を確かめること。ビッグエンディアン。ミニフォーマットの `buf` の長さと、コマンド引数（`flag`）での受け取り方 | ビット、バイト、2ⁿ、0〜255、16進数、`int`、`byte`、`uint8`、`uint32`、符号あり・なし、2の補数、型の変換、切り捨て、オーバーフロー、範囲チェック、ビッグエンディアン、`flag`、固定長、可変長 |
+| [byte-sequence-and-interpretation-qa.md](qa/byte-sequence-and-interpretation-qa.md) | **バイト列とは何か**（0と1を8個ずつ区切って並べたもの）と、**バイト列そのものには意味が書いていない**こと（同じ `41 42 43 44` が `"ABCD"` にも 1094861636 にも 12.14 にもなる）。**同じバイトを何で読み分けているか**：プログラムでは**型 → コンパイラが命令を選ぶ → CPU が命令どおりに読む**、ネットワークでは**プロトコルの約束と目印**。**エンコード**とは何か、Go の `string` は**書き換えられない UTF-8 のバイト列**で `len` はバイト数、`copy` は変換せず写すだけ。Python・Java・JavaScript との違い、`[]byte`・`[N]byte`・`net.IP`、`PutUint32`、札の中身（番地・長さ・容量）、範囲チェックに型アサーションが使えない理由、組み立てで間違えやすかったところ | バイト列、ビット、解釈、型、CPU の命令、コンパイラ、プロトコル、magic cookie、マジックナンバー、エンコード、デコード、UTF-8、UTF-16、rune、`len`、`RuneCountInString`、`string`、`[]byte`、`[N]byte`、`net.IP`、`PutUint32`、`AppendUint32`、ポインタ、型アサーション、`math.MaxUint8` |
 
 > Linuxの権限の基本（`rwx`、`755`、`644`、フォルダ構成）は、トラブルの記録 [apt-permission-denied-qa.md](troubleshooting/apt-permission-denied-qa.md) の6章で詳しく説明しています。
 
@@ -170,6 +171,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
       └── reviews/udp-echo-client-review.md …… udp-echo の Client のレビュー記録
             └── qa/go-send-buffer-and-copy-qa.md … 送る側の入れ物、フィールドの詰め方、copy のしくみ（dst の切り出しと箱と札）
                   └── qa/integer-size-and-byte-format-qa.md … ビットとバイト、int の大きさ、型とフォーマットの大きさ、変換は切り捨て
+                        └── qa/byte-sequence-and-interpretation-qa.md … バイト列とは、同じバイトを何で読み分けるか、エンコード、文字列と UTF-8
 ```
 
 ---

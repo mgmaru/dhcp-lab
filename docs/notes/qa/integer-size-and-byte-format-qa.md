@@ -20,6 +20,7 @@ udp-echo の Client で、練習用のミニフォーマット（種類1バイ�
 - [go-slice-memory-basics-qa.md](go-slice-memory-basics-qa.md)：メモリの1マス（1バイト）と番地、型によって箱1個の大きさが違うこと（3章）
 - [udp-message-size-qa.md](udp-message-size-qa.md)：UDP の1通の大きさ（IPv4 で65507バイト）、DHCP のメッセージの形
 - [tcp-stream-and-http-framing-qa.md](tcp-stream-and-http-framing-qa.md)：TCP には区切りがないので、長さを先に送る必要があること
+- [byte-sequence-and-interpretation-qa.md](byte-sequence-and-interpretation-qa.md)：続き。バイト列とは何か、同じバイトを何で読み分けているのか、エンコード、文字列と UTF-8
 
 ## 目次
 
