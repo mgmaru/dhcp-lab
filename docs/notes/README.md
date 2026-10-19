@@ -87,6 +87,7 @@ docs/notes/
 | [go-buffer-size-and-append-qa.md](qa/go-buffer-size-and-append-qa.md) | **受け取り用の入れ物の大きさ**の決め方（IPv4 の UDP の最大 65507バイト、DHCP は 576バイト以上）。入れ物より大きいメッセージは黙って切れること、**「最大＋1バイト」で切れたことに気づく**方法。**`make` は容量の分を確保する**のでメモリは減らないこと。**受け取りには長さ、`append` には容量**を指定する理由。**スライスは「箱」と「札」**でできていて、`append` は空きがなければ大きい箱に**引っ越す**こと。**容量は確保してある箱の数、長さは使ってよい箱の数**で、受け取りのメソッドが長さの範囲にしか書かない理由（`io.Reader` の約束、札のコピー） | スライス、len、cap、`make`、`append`、バッファの大きさ、切り捨て、`MSG_TRUNC`、65507、メモリの確保、箱と札、引っ越し、連結リスト |
 | [go-slice-memory-basics-qa.md](qa/go-slice-memory-basics-qa.md) | **メモリとスライスの基礎**。メモリの最小の単位は**1バイト（1マス）**で、スライスの箱（要素1個）の大きさは型によって違うこと（`int` は64ビットのマシンで8バイト）。長さと容量は箱の数で数えること。最初の容量は32バイト分、`append` の容量は**直前の容量をもとに、小さいうちは2倍、大きくなると1.25倍に近づく**こと。余る空きの数は計算で決まること。溢れたら箱を足すのではなく**大きい箱の列に引っ越す**こと | メモリ、番地、バイト、`int`、`int32`、64ビット、`append`、容量の増え方、メモリの区切り、ゴミ集め |
 | [go-send-buffer-and-copy-qa.md](qa/go-send-buffer-and-copy-qa.md) | **送る側にも入れ物は要るのか**。受け取りは OS が**書く**場所が要るが、送信は OS が**読む**データがあればよいこと、入れ物を全部送ると余計な0まで送られること。DHCP のように**決まった位置にフィールドを詰める**方法（直接代入・`binary.BigEndian.PutUint32`・`copy`）、構造体＋変換メソッドがおすすめな理由、練習用のミニフォーマット。**`copy(dst, src)` のしくみ**（先頭から上書き、短い方に合わせる、溢れた分は捨てる）、**書く位置は `dst` の切り出し方で決める**こと、切り出しても**新しい箱はできない**こと | `copy`、dst、src、`[]byte`、送信、`WriteToUDP`、オフセット、ビッグエンディアン、`binary.BigEndian`、`PutUint32`、DHCP のメッセージの形、構造体、`binary.Write`、`BinaryMarshaler`、切り出し、箱と札、GC、エスケープ解析 |
+| [go-ip-address-parse-qa.md](qa/go-ip-address-parse-qa.md) | **IPアドレスの文字列が正しいか確かめる方法**。**`net.ParseIP`**（だめなら `nil`、IPv4 も16バイトなので `To4()` で確かめる）と **`netip.ParseAddr`**（理由付きのエラー、`Is4`・`IsLoopback`・`IsUnspecified`）。**`ResolveUDPAddr` は名前解決もするのでバリデーションの代わりにならない**こと（空の文字列や `localhost` も通る）。`flag.TextVar` で受け取るときに確かめる方法、`netip.ParseAddrPort`、範囲（`10.0.0.0/24`）を扱う `ParseCIDR`・`ParsePrefix` | パース、バリデーション、`net.ParseIP`、`To4`、`net/netip`、`netip.ParseAddr`、`Is4`、`ResolveUDPAddr`、名前解決、DNS、`flag.TextVar`、`UnmarshalText`、`ParseAddrPort`、CIDR、`ParseCIDR`、`ParsePrefix` |
 
 **データの表し方（情報工学の基礎）**
 
@@ -175,6 +176,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
             │     └── qa/integer-size-and-byte-format-qa.md … ビットとバイト、int の大きさ、型とフォーマットの大きさ、変換は切り捨て
             │           └── qa/byte-sequence-and-interpretation-qa.md … バイト列とは、同じバイトを何で読み分けるか、エンコード、文字列と UTF-8
             ├── qa/special-address-0000-qa.md … 0.0.0.0 とは（bind と宛先で意味が違う）、ソケットがぶつかる条件、特別なアドレス
+            ├── qa/go-ip-address-parse-qa.md … IPアドレスの文字列を確かめる（ParseIP・ParseAddr）、ResolveUDPAddr はバリデーションにならない
             └── qa/dhcp-lease-renew-rebind-qa.md … DHCP のリースと更新（T1 でユニキャスト、T2 でブロードキャスト）、udp-echo との違い
 ```
 
