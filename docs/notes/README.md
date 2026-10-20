@@ -77,6 +77,12 @@ docs/notes/
 | [file-vs-folder-permission-qa.md](qa/file-vs-folder-permission-qa.md) | **ファイルとフォルダで `rwx` の意味が違う**こと。保存に実行権限は不要なこと、「読む」「実行する」「たどり着く」の違い | ファイルの `x`（実行）、フォルダの `x`（中に入る）、nano、`chmod +x` |
 | [stdout-stderr-qa.md](qa/stdout-stderr-qa.md) | **標準出力（普通の結果）と標準エラー出力（エラーやお知らせ）**の違い、**どちらに出すかを決めるのはプログラム**であること、区別しないと何が起こるか、try-catch との関係、プログラムの中と外（外への出口の種類）、終了コードを返す理由と数字の分け方、`os.Stderr` と `fmt.Fprintln` の役割分担、`Fprintln` と `Println` の違い、リダイレクト（`>`・`2>`・`2>&1`・`\|`）、Goでの出力先、エラーの表示と終了コード | stdout、stderr、ファイルディスクリプタ、リダイレクト、パイプ、`2>&1`、`>&2`、終了コード、`echo $?`、`fmt`、`log`、try-catch、throw、ソケット、親プロセス、`&&`・`\|\|`、`grep` の終了コード、127・130、`os.Stderr`、`fmt.Fprintln`、`fmt.Println`、`Fprintf`、`io.Writer` |
 
+**Git**
+
+| ドキュメント | 内容 | 主なキーワード |
+|---|---|---|
+| [git-branch-stage-switch-qa.md](qa/git-branch-stage-switch-qa.md) | **ブランチ・ステージ・切り替えのしくみ**。ブランチ名に `:` や空白は使えないこと（`fix:` はコミットメッセージの書き方）。**ステージもコミットしていない変更も、どのブランチにも属していない**こと（コミットした時点でいたブランチに入る）。`git stash` から戻す方法。**`git status` は今いるブランチの最後のコミットと比べる**ので、main にコミットした中身でもブランチでは「変更あり」になること。`git worktree` で別のフォルダに main を開いてコミットしたやり方と、その弱点。**`git switch` はコミットしていない変更を黙って消さない**（付いていくか、断るか）こと、断られる条件（手元の中身が同じでも断る）、コミット済みならマージのときにコンフリクトになること | ブランチ、ブランチ名、`git check-ref-format`、Conventional Commits、ステージ、インデックス、作業ツリー、`HEAD`、`git stash`、`apply`・`pop`・`drop`、`git status`、`git worktree`、`git switch`、`--discard-changes`、`git merge`、コンフリクト、`git cherry-pick`、`git pull` |
+
 **Go**
 
 | ドキュメント | 内容 | 主なキーワード |
@@ -177,6 +183,7 @@ learning-exercise.md（STEP 1：UDP通信を理解する）
             │     └── qa/integer-size-and-byte-format-qa.md … ビットとバイト、int の大きさ、型とフォーマットの大きさ、変換は切り捨て
             │           └── qa/byte-sequence-and-interpretation-qa.md … バイト列とは、同じバイトを何で読み分けるか、エンコード、文字列と UTF-8
             ├── qa/special-address-0000-qa.md … 0.0.0.0 とは（bind と宛先で意味が違う）、ソケットがぶつかる条件、特別なアドレス
+            ├── qa/git-branch-stage-switch-qa.md … ブランチ・ステージ・切り替えのしくみ、stash、worktree、切り替えが断られるとき
             ├── qa/go-validate-function-return-qa.md … 確かめる関数は何を返すとよいか（error を返す、型に変換して返す）、Go の enum、パースとバリデーションの違い
             ├── qa/go-ip-address-parse-qa.md … IPアドレスの文字列を確かめる（ParseIP・ParseAddr）、ResolveUDPAddr はバリデーションにならない
             └── qa/dhcp-lease-renew-rebind-qa.md … DHCP のリースと更新（T1 でユニキャスト、T2 でブロードキャスト）、udp-echo との違い
