@@ -19,15 +19,17 @@ type networkArgs struct {
 	message    string
 }
 
-func setNetworkArgs(method string) networkArgs {
-	if method == "0" {
-		serverHost := flag.String("addr", "127.0.0.1", "Set the server address. The default is 127.0.0.1")
-		serverPort := flag.String("port", "9067", "Set the server port. The default is 9067.")
-		kinds := flag.Int("kinds", 1, "kinds flag 1(message) or 2(ping) default 1") // 1byte -> 0-255
-		id := flag.Uint("ID", 0, "ID uint32 default 0")                             // uint64 but the client requires 32bit(uint32)
-		message := flag.String("message", "", "input send message")
+func setSubCmds(method string, args []string) networkArgs {
 
-		flag.Parse()
+	subCmds := flag.NewFlagSet("sub", flag.ExitOnError)
+	if method == "0" {
+		serverHost := subCmds.String("addr", "127.0.0.1", "Set the server address. The default is 127.0.0.1")
+		serverPort := subCmds.String("port", "9067", "Set the server port. The default is 9067.")
+		kinds := subCmds.Int("kinds", 1, "kinds flag 1(message) or 2(ping) default 1") // 1byte -> 0-255
+		id := subCmds.Uint("id", 0, "ID uint32 default 0")                             // uint64 but the client requires 32bit(uint32)
+		message := subCmds.String("message", "", "input send message")
+
+		subCmds.Parse(args)
 
 		return networkArgs{
 			serverHost: *serverHost,
@@ -38,12 +40,12 @@ func setNetworkArgs(method string) networkArgs {
 		}
 
 	} else { // broadcast
-		serverPort := flag.String("port", "9067", "Set the server port. The default is 9067.")
-		kinds := flag.Int("kinds", 1, "kinds flag 1(message) or 2(ping) default 1") // 1byte -> 0-255
-		id := flag.Uint("ID", 0, "ID uint32 default 0")                             // uint64 but the client requires 32bit(uint32)
-		message := flag.String("message", "", "input send message")
+		serverPort := subCmds.String("port", "9067", "Set the server port. The default is 9067.")
+		kinds := subCmds.Int("kinds", 1, "kinds flag 1(message) or 2(ping) default 1") // 1byte -> 0-255
+		id := subCmds.Uint("id", 0, "ID uint32 default 0")                             // uint64 but the client requires 32bit(uint32)
+		message := subCmds.String("message", "", "input send message")
 
-		flag.Parse()
+		subCmds.Parse(args)
 
 		return networkArgs{
 			serverHost: "255.255.255.255",
@@ -55,7 +57,17 @@ func setNetworkArgs(method string) networkArgs {
 	}
 }
 
-func validateNetworkArgs(args networkArgs) {
+// validate method
+func validateMethod(method string) string {
+	if method != "0" && method != "1" {
+		fmt.Fprintln(os.Stderr, "Invalid argument. The argument must be 0 (unicast) or 1 (broadcast).")
+		os.Exit(1)
+	}
+	validMethod := method
+	return validMethod
+}
+
+func validateSubCmds(args networkArgs) {
 	if net.IP(args.serverHost) == nil {
 		fmt.Fprintln(os.Stderr, "The network address is invalid.")
 		os.Exit(1)
@@ -71,29 +83,22 @@ func validateNetworkArgs(args networkArgs) {
 }
 
 func main() {
-	// Args
-	// method setting
-	fmt.Println("Please select either 0 (unicast) or 1 (broadcast).：", os.Args)
-	if len(os.Args) != 1 {
-		fmt.Fprintln(os.Stderr, "The number of arguments is incorrect. There is only one argument.")
-		os.Exit(1)
-	}
-	if os.Args[0] != "0" && os.Args[0] != "1" {
-		fmt.Fprintln(os.Stderr, "Invalid argument. The argument must be 0 (unicast) or 1 (broadcast).")
+
+	if len(os.Args) < 2 {
+		fmt.Fprintln(os.Stderr, "The argument is missing.")
 		os.Exit(1)
 	}
 
-	method := os.Args[0]
+	validMethod := validateMethod(os.Args[1])
 
-	args := setNetworkArgs(method)
-
-	// Argument validation
-	validateNetworkArgs(args)
+	// set subCmds
+	subCmds := setSubCmds(validMethod, os.Args[2:])
+	validateSubCmds(subCmds)
 
 	// byte length
 	kindsBytelength := 1
 	idByteLength := 4
-	messageByteLength := len(args.message)
+	messageByteLength := len(subCmds.message)
 	totalByteLength := kindsBytelength + idByteLength + messageByteLength
 
 	// byte Length validation
@@ -110,7 +115,7 @@ func main() {
 	}
 
 	// convert to server Address
-	serverAddr, err := net.ResolveUDPAddr("udp4", args.serverHost+":"+args.serverPort)
+	serverAddr, err := net.ResolveUDPAddr("udp4", subCmds.serverHost+":"+subCmds.serverPort)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -125,9 +130,9 @@ func main() {
 
 	// write the message to the buffer
 	buf := make([]byte, totalByteLength)
-	buf[0] = byte(args.kinds)
-	binary.BigEndian.PutUint32(buf[1:5], uint32(args.id))
-	copy(buf[5:], []byte(args.message))
+	buf[0] = byte(subCmds.kinds)
+	binary.BigEndian.PutUint32(buf[1:5], uint32(subCmds.id))
+	copy(buf[5:], []byte(subCmds.message))
 
 	// send packet to server
 	_, err = conn.WriteToUDP(buf, serverAddr)
@@ -138,7 +143,7 @@ func main() {
 	// display send message to UDP server
 	fmt.Println("kinds：" + string(buf[0]))
 	fmt.Println("ID：" + string(buf[1:5]))
-	fmt.Println("message：" + args.message)
+	fmt.Println("message：" + subCmds.message)
 
 	// read message from UDP server
 	readBuf := make([]byte, 1000)
