@@ -130,7 +130,7 @@ docs/notes/
 | ドキュメント | 対象のコード | 現在の状況 |
 |---|---|---|
 | [udp-echo-server-review.md](reviews/udp-echo-server-review.md) | `playground/udp-echo/server/` | M0〜M3 完了。Mac の上で S1〜S4 が揃った。次は VM で動かす（13回目） |
-| [udp-echo-client-review.md](reviews/udp-echo-client-review.md) | `playground/udp-echo/client/` | M0（エラー処理）・M1（bind）完了。M2（送って返事を受け取る）は途中。5回目でサブコマンド（ユニキャスト／ブロードキャスト）と、返事の受け取り・タイムアウト（M3）を書き始めたが、`os.Args` の番号と `flag.Parse()` の読み方の問題で、どの引数でも引数チェックで止まる |
+| [udp-echo-client-review.md](reviews/udp-echo-client-review.md) | `playground/udp-echo/client/` | M0（エラー処理）・M1（bind）完了。M3（タイムアウト）は Mac で動いた。M2（送って返事を受け取る）は途中：6回目で送信まで進めるようになったが、サブコマンドの後ろの flag がまだ読まれない・返事を受け取っても終了してしまう。ブロードキャストは Mac では `no route to host`（VM で確かめる） |
 
 ---
 
