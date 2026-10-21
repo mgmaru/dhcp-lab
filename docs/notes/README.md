@@ -139,7 +139,7 @@ docs/notes/
 | ドキュメント | 対象のコード | 現在の状況 |
 |---|---|---|
 | [udp-echo-server-review.md](reviews/udp-echo-server-review.md) | `playground/udp-echo/server/` | M0〜M3 完了。Mac の上で S1〜S4 が揃った。次は VM で動かす（13回目） |
-| [udp-echo-client-review.md](reviews/udp-echo-client-review.md) | `playground/udp-echo/client/` | M0（エラー処理）・M1（bind）完了。M3（タイムアウト）は Mac で動いた。M5（引数）はほぼ完了。9回目で、ユニキャストの「送って、返事を受け取って、表示する」流れが Mac で最後まで動いた。10回目で、返事を種類・ID・本文にデコードして表示できた。**11回目で、読んだ後のチェック（種類が1か2か、送ったものと同じか）が効くようになった**。Mac では、返事の表示の改行を直せば完成。残りは VM での確認。ブロードキャストは Mac では `no route to host`（VM で確かめる） |
+| [udp-echo-client-review.md](reviews/udp-echo-client-review.md) | `playground/udp-echo/client/` | M0（エラー処理）・M1（bind）完了。M3（タイムアウト）は Mac で動いた。M5（引数）はほぼ完了。9回目で、ユニキャストの「送って、返事を受け取って、表示する」流れが Mac で最後まで動いた。10回目で、返事を種類・ID・本文にデコードして表示できた。11回目で、読んだ後のチェック（種類が1か2か、送ったものと同じか）が効くようになった。**12回目で、Mac で確かめられる部分が完成し、`fix/udp-echo-client` ブランチを main に取り込んだ**。残りは VM での確認（ユニキャスト `10.0.0.1`、ブロードキャスト、tcpdump）。ブロードキャストは Mac では `no route to host`（VM で確かめる） |
 
 ---
 
