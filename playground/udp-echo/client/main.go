@@ -19,7 +19,7 @@ type networkArgs struct {
 	message    string
 }
 
-type RecievedData struct {
+type ReceivedData struct {
 	kinds   int
 	id      uint
 	message string
@@ -173,34 +173,37 @@ func main() {
 	}
 
 	// decode
-	recievedKinds := int(readBuf[0])
-	recievedId := uint(binary.BigEndian.Uint32(readBuf[1:5]))
-	recievedMessage := string(readBuf[5:readBufLen])
+	receivedKinds := int(readBuf[0])
+	receivedId := uint(binary.BigEndian.Uint32(readBuf[1:5]))
+	receivedMessage := string(readBuf[5:readBufLen])
 
 	// validation
-	if recievedKinds != 1 && recievedKinds != 2 {
+	if receivedKinds != 1 && receivedKinds != 2 {
 		fmt.Fprintln(os.Stderr, "This is an invalid type. The valid types are 1 or 2.")
 		os.Exit(1)
 	}
-	if recievedKinds != subCmds.kinds {
+	if receivedKinds != subCmds.kinds {
 		fmt.Fprintln(os.Stderr, "The type of message sent and the type of message received are different.")
 		os.Exit(1)
 	}
-	if recievedId != subCmds.id {
+	if receivedId != subCmds.id {
 		fmt.Fprintln(os.Stderr, "The ID sent and the ID received are different.")
 		os.Exit(1)
 	}
-	if recievedMessage != subCmds.message {
+	if receivedMessage != subCmds.message {
 		fmt.Fprintln(os.Stderr, "The message I sent and the message I received are different.")
 		os.Exit(1)
 	}
 
-	recievedData := RecievedData{
-		kinds:   recievedKinds,
-		id:      recievedId,
-		message: recievedMessage,
+	receivedData := ReceivedData{
+		kinds:   receivedKinds,
+		id:      receivedId,
+		message: receivedMessage,
 	}
 
 	// display message from UDP server
-	fmt.Println(server, recievedData.kinds, recievedData.id, recievedData.message)
+	fmt.Printf("server：%s\n", server)
+	fmt.Printf("kinds：%d\n", receivedData.kinds)
+	fmt.Printf("ID：%d\n", receivedData.id)
+	fmt.Printf("message：%s\n", receivedData.message)
 }
