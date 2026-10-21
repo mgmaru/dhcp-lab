@@ -19,6 +19,12 @@ type networkArgs struct {
 	message    string
 }
 
+type RecievedData struct {
+	kinds   int
+	id      uint
+	message string
+}
+
 func setSubCmds(method string, args []string) networkArgs {
 
 	subCmds := flag.NewFlagSet("sub", flag.ExitOnError)
@@ -130,7 +136,7 @@ func main() {
 
 	defer conn.Close()
 
-	// write the message to the buffer
+	// encode and write the message to the buffer
 	buf := make([]byte, totalByteLength)
 	buf[0] = byte(subCmds.kinds)
 	binary.BigEndian.PutUint32(buf[1:5], uint32(subCmds.id))
@@ -151,7 +157,7 @@ func main() {
 	readBuf := make([]byte, 1000)
 	conn.SetReadDeadline(time.Now().Add(3 * time.Second)) // Set the timeout period to 3 seconds.
 
-	n, server, err := conn.ReadFromUDPAddrPort(readBuf)
+	readBufLen, server, err := conn.ReadFromUDPAddrPort(readBuf)
 	if errors.Is(err, os.ErrDeadlineExceeded) { // timout Error
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -159,6 +165,42 @@ func main() {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
+
+	// Check the length of the received buffer
+	if readBufLen < 5 { // Not long enough
+		fmt.Fprintln(os.Stderr, "The received message is too short. The minimum length required is 5 bytes.")
+		os.Exit(1)
+	}
+
+	// decode
+	recievedKinds := int(readBuf[0])
+	recievedId := uint(binary.BigEndian.Uint32(readBuf[1:5]))
+	recievedMessage := string(readBuf[5:readBufLen])
+
+	// validation
+	if recievedKinds != 1 && recievedKinds != 2 {
+		fmt.Fprintln(os.Stderr, "This is an invalid type. The valid types are 1 or 2.")
+		os.Exit(1)
+	}
+	if recievedKinds != subCmds.kinds {
+		fmt.Fprintln(os.Stderr, "The type of message sent and the type of message received are different.")
+		os.Exit(1)
+	}
+	if recievedId != subCmds.id {
+		fmt.Fprintln(os.Stderr, "The ID sent and the ID received are different.")
+		os.Exit(1)
+	}
+	if recievedMessage != subCmds.message {
+		fmt.Fprintln(os.Stderr, "The message I sent and the message I received are different.")
+		os.Exit(1)
+	}
+
+	recievedData := RecievedData{
+		kinds:   recievedKinds,
+		id:      recievedId,
+		message: recievedMessage,
+	}
+
 	// display message from UDP server
-	fmt.Println(server, string(readBuf[:n]))
+	fmt.Println(server, recievedData.kinds, recievedData.id, recievedData.message)
 }
