@@ -68,7 +68,7 @@ func validateMethod(method string) string {
 }
 
 func validateSubCmds(args networkArgs) {
-	if net.IP(args.serverHost) == nil {
+	if net.ParseIP(args.serverHost) == nil {
 		fmt.Fprintln(os.Stderr, "The network address is invalid.")
 		os.Exit(1)
 	}
@@ -128,6 +128,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	defer conn.Close()
+
 	// write the message to the buffer
 	buf := make([]byte, totalByteLength)
 	buf[0] = byte(subCmds.kinds)
@@ -141,23 +143,22 @@ func main() {
 		os.Exit(1)
 	}
 	// display send message to UDP server
-	fmt.Println("kinds：" + string(buf[0]))
-	fmt.Println("ID：" + string(buf[1:5]))
-	fmt.Println("message：" + subCmds.message)
+	fmt.Printf("kinds：%d\n", subCmds.kinds)
+	fmt.Printf("ID：%d\n", subCmds.id)
+	fmt.Printf("message：%s\n", subCmds.message)
 
 	// read message from UDP server
 	readBuf := make([]byte, 1000)
 	conn.SetReadDeadline(time.Now().Add(3 * time.Second)) // Set the timeout period to 3 seconds.
 
 	n, server, err := conn.ReadFromUDPAddrPort(readBuf)
-	// timout Error
-	if errors.Is(err, os.ErrDeadlineExceeded) {
+	if errors.Is(err, os.ErrDeadlineExceeded) { // timout Error
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
-	} else { // other Error
+	} else if err != nil { // other Error
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 	// display message from UDP server
-	fmt.Println(server, string(buf[:n]))
+	fmt.Println(server, string(readBuf[:n]))
 }
